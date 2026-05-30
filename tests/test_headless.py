@@ -1,0 +1,172 @@
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+from mindbuddy.tooling import ToolRegistry
+from mindbuddy.types import AgentStep, ChatMessage, ModelAdapter
+
+
+class _DummyPermissions:
+    def __init__(self, cwd: str, prompt=None) -> None:
+        self.cwd = cwd
+        self.prompt = prompt
+
+    def get_summary(self) -> list[str]:
+        return ["workspace writes allowed"]
+
+
+class _DummyMemoryManager:
+    def __init__(self, project_root: Path) -> None:
+        self.project_root = project_root
+
+    def get_relevant_context(self) -> dict[str, str]:
+        return {}
+
+
+class _ProviderUnavailableModel(ModelAdapter):
+    model_id = "deepseek-v4-pro[1m]"
+
+    def next(
+        self,
+        messages: list[ChatMessage],
+        on_stream_chunk=None,
+        store=None,
+    ) -> AgentStep:
+        raise RuntimeError(
+            "No available channel for model deepseek-v4-pro[1m] under group cc"
+        )
+
+
+def test_run_headless_forwards_runtime_to_agent_turn(monkeypatch, tmp_path: Path) -> None:
+    import mindbuddy.headless
+
+    runtime = {
+        "model": "deepseek-v4-pro[1m]",
+        "baseUrl": "https://openai-proxy.example/v1",
+        "authToken": "test-token",
+    }
+    captured: dict[str, object] = {}
+
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(
+        "mindbuddy.config.load_runtime_config",
+        lambda cwd: runtime,
+    )
+    monkeypatch.setattr(
+        "mindbuddy.tools.create_default_tool_registry",
+        lambda cwd, runtime=None: ToolRegistry([]),
+    )
+    monkeypatch.setattr("mindbuddy.permissions.PermissionManager", _DummyPermissions)
+    monkeypatch.setattr("mindbuddy.memory.MemoryManager", _DummyMemoryManager)
+    monkeypatch.setattr(
+        "mindbuddy.prompt.build_system_prompt",
+        lambda cwd, permissions, context: "sys",
+    )
+    monkeypatch.setattr(
+        "mindbuddy.model_registry.create_model_adapter",
+        lambda model, tools, runtime=None: object(),
+    )
+
+    def _fake_run_agent_turn(**kwargs):
+        captured["runtime"] = kwargs["runtime"]
+        return [{"role": "assistant", "content": "ok"}]
+
+    monkeypatch.setattr("mindbuddy.agent_loop.run_agent_turn", _fake_run_agent_turn)
+
+    response = mindbuddy.headless.run_headless("Reply with exactly OK.")
+
+    assert response == "ok"
+    assert captured["runtime"] is runtime
+
+
+def test_run_headless_provider_failure_uses_runtime_channel_details(
+    monkeypatch,
+    tmp_path: Path,
+) -> None:
+    import mindbuddy.headless
+
+    runtime = {
+        "model": "deepseek-v4-pro[1m]",
+        "baseUrl": "https://openai-proxy.example/v1",
+        "authToken": "test-token",
+    }
+
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("MINDBUDDY_MODEL_FALLBACKS", raising=False)
+    monkeypatch.delenv("ANTHROPIC_MODEL_FALLBACKS", raising=False)
+    monkeypatch.delenv("OPENAI_MODEL_FALLBACKS", raising=False)
+    monkeypatch.delenv("OPENROUTER_MODEL_FALLBACKS", raising=False)
+    monkeypatch.setattr(
+        "mindbuddy.config.load_runtime_config",
+        lambda cwd: runtime,
+    )
+    monkeypatch.setattr(
+        "mindbuddy.tools.create_default_tool_registry",
+        lambda cwd, runtime=None: ToolRegistry([]),
+    )
+    monkeypatch.setattr("mindbuddy.permissions.PermissionManager", _DummyPermissions)
+    monkeypatch.setattr("mindbuddy.memory.MemoryManager", _DummyMemoryManager)
+    monkeypatch.setattr(
+        "mindbuddy.prompt.build_system_prompt",
+        lambda cwd, permissions, context: "sys",
+    )
+    monkeypatch.setattr(
+        "mindbuddy.model_registry.create_model_adapter",
+        lambda model, tools, runtime=None: _ProviderUnavailableModel(),
+    )
+
+    response = mindbuddy.headless.run_headless("Reply with exactly OK.")
+
+    assert "Provider availability failure:" in response
+    assert "deepseek-v4-pro" in response
+
+
+def test_run_headless_writes_messages_trace_when_requested(monkeypatch, tmp_path: Path) -> None:
+    import mindbuddy.headless
+
+    runtime = {
+        "model": "deepseek-v4-pro[1m]",
+        "baseUrl": "https://openai-proxy.example/v1",
+        "authToken": "test-token",
+    }
+    trace_path = tmp_path / "artifacts" / "messages.json"
+
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("MINDBUDDY_HEADLESS_MESSAGES_OUT", str(trace_path))
+    monkeypatch.setattr(
+        "mindbuddy.config.load_runtime_config",
+        lambda cwd: runtime,
+    )
+    monkeypatch.setattr(
+        "mindbuddy.tools.create_default_tool_registry",
+        lambda cwd, runtime=None: ToolRegistry([]),
+    )
+    monkeypatch.setattr("mindbuddy.permissions.PermissionManager", _DummyPermissions)
+    monkeypatch.setattr("mindbuddy.memory.MemoryManager", _DummyMemoryManager)
+    monkeypatch.setattr(
+        "mindbuddy.prompt.build_system_prompt",
+        lambda cwd, permissions, context: "sys",
+    )
+    monkeypatch.setattr(
+        "mindbuddy.model_registry.create_model_adapter",
+        lambda model, tools, runtime=None: object(),
+    )
+    monkeypatch.setattr(
+        "mindbuddy.agent_loop.run_agent_turn",
+        lambda **kwargs: [
+            {"role": "assistant", "content": "traceable"},
+            {"role": "tool", "content": "python -m unittest"},
+        ],
+    )
+
+    response = mindbuddy.headless.run_headless("Run the visible tests.")
+
+    assert response == "traceable"
+    payload = json.loads(trace_path.read_text(encoding="utf-8"))
+    assert payload["cwd"] == str(tmp_path)
+    assert payload["prompt"] == "Run the visible tests."
+    assert payload["model"] == "deepseek-v4-pro[1m]"
+    assert payload["assistant_response"] == "traceable"
+    assert payload["error"] is None
+    assert payload["messages"][0]["role"] == "assistant"
