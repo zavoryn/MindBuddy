@@ -1,0 +1,120 @@
+# =============================================================================
+# MindBuddy — Docker Compose
+# =============================================================================
+# Supports four modes:
+#   1. cli       — Interactive terminal session (default)
+#   2. gateway   — Web API + multi-platform bridge
+#   3. cron      — Scheduled task runner
+#   4. headless  — One-shot non-interactive execution
+#
+# Usage:
+#   docker compose run --rm cli
+#   docker compose run --rm -e ANTHROPIC_API_KEY=sk-ant-... cli
+#   docker compose up gateway
+#   docker compose run --rm headless "帮我分析这个项目的结构"
+# =============================================================================
+
+services:
+  # ===========================================================================
+  # Mode 1: Interactive CLI
+  # ===========================================================================
+  cli:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mindbuddy:latest
+    container_name: mindbuddy-cli
+    stdin_open: true
+    tty: true
+    init: true
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - ANTHROPIC_MODEL=${ANTHROPIC_MODEL:-claude-sonnet-4-20250514}
+      - MINDBUDDY_LOG_LEVEL=${MINDBUDDY_LOG_LEVEL:-WARNING}
+    volumes:
+      - ${MINDBUDDY_WORKSPACE:-.}:/workspace
+      - mindbuddy-home:/home/mindbuddy/.mindbuddy
+    working_dir: /workspace
+
+  # ===========================================================================
+  # Mode 2: Gateway — Web API for multi-platform access
+  # ===========================================================================
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mindbuddy:latest
+    container_name: mindbuddy-gateway
+    init: true
+    ports:
+      - "${MINDBUDDY_GATEWAY_PORT:-8080}:8080"
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - ANTHROPIC_MODEL=${ANTHROPIC_MODEL:-claude-sonnet-4-20250514}
+      - MINDBUDDY_GATEWAY=1
+      - MINDBUDDY_GATEWAY_PORT=8080
+      - MINDBUDDY_GATEWAY_HOST=0.0.0.0
+      - MINDBUDDY_LOG_LEVEL=${MINDBUDDY_LOG_LEVEL:-INFO}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
+      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN:-}
+      - SLACK_BOT_TOKEN=${SLACK_BOT_TOKEN:-}
+    volumes:
+      - ${MINDBUDDY_WORKSPACE:-.}:/workspace
+      - mindbuddy-home:/home/mindbuddy/.mindbuddy
+    working_dir: /workspace
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  # ===========================================================================
+  # Mode 3: Cron — Scheduled task runner
+  # ===========================================================================
+  cron:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mindbuddy:latest
+    container_name: mindbuddy-cron
+    init: true
+    entrypoint: ["python", "-m", "mindbuddy.cron_runner"]
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - ANTHROPIC_MODEL=${ANTHROPIC_MODEL:-claude-sonnet-4-20250514}
+      - MINDBUDDY_CRON_CONFIG=/workspace/.mindbuddy/cron.json
+      - MINDBUDDY_LOG_LEVEL=${MINDBUDDY_LOG_LEVEL:-INFO}
+    volumes:
+      - ${MINDBUDDY_WORKSPACE:-.}:/workspace
+      - mindbuddy-home:/home/mindbuddy/.mindbuddy
+    working_dir: /workspace
+    restart: unless-stopped
+
+  # ===========================================================================
+  # Mode 4: Headless — One-shot non-interactive execution
+  # ===========================================================================
+  headless:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mindbuddy:latest
+    container_name: mindbuddy-headless
+    init: true
+    entrypoint: ["python", "-m", "mindbuddy.headless"]
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - ANTHROPIC_MODEL=${ANTHROPIC_MODEL:-claude-sonnet-4-20250514}
+      - MINDBUDDY_LOG_LEVEL=${MINDBUDDY_LOG_LEVEL:-WARNING}
+    volumes:
+      - ${MINDBUDDY_WORKSPACE:-.}:/workspace
+      - mindbuddy-home:/home/mindbuddy/.mindbuddy
+    working_dir: /workspace
+
+# =============================================================================
+# Named volumes — persist config, memory, and skills across containers
+# =============================================================================
+volumes:
+  mindbuddy-home:
+    driver: local
