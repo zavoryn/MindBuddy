@@ -15,7 +15,7 @@ def test_build_readiness_report_surfaces_viable_fallbacks() -> None:
     )
 
     assert report.status == "ready"
-    assert report.provider_ready is True
+    assert report.provider_channel is not None
     assert report.fallback_ready is True
     assert report.fallback_candidates == ["gpt-4o", "claude-haiku-3-20240307"]
     assert report.viable_fallbacks == ["gpt-4o", "claude-haiku-3-20240307"]
