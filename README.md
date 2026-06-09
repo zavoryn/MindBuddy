@@ -20,6 +20,10 @@
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blue?style=flat-square">
 </p>
 
+<p align="center">
+  <img src="./docs/assets/mindbuddy-architecture.png" alt="MindBuddy 架构概览" width="100%">
+</p>
+
 ---
 
 ## 这是什么？
