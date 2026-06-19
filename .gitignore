@@ -56,3 +56,12 @@ Thumbs.db
 .mindbuddy-memory-local/
 .mindbuddy-session-memory/
 mindbuddy_session/
+
+# Claude Code / IDE agent files
+.claude/
+CLAUDE.md
+.mewcode/
+
+# Local config (sensitive)
+config.yaml
+*.local.yaml
