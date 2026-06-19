@@ -25,6 +25,10 @@ docs/
 *.swp
 *.swo
 
+# Environment (never include secrets in image)
+.env
+.env.*
+
 # Session / log / temp data
 session-log.txt
 *.log
@@ -38,6 +42,21 @@ session-log.txt
 Dockerfile
 docker-compose*.yml
 .dockerignore
+
+# Agent tooling
+.claude/
+CLAUDE.md
+.mewcode/
+.mindbuddy/
+
+# Local config
+config.yaml
+*.local.yaml
+
+# Virtual environments
+.venv/
+venv/
+env/
 
 # OS
 .DS_Store
