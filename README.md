@@ -16,6 +16,7 @@
 </p>
 
 <p align="center">
+  <img alt="CI" src="https://github.com/zavoryn/MindBuddy/actions/workflows/ci.yml/badge.svg">
   <img alt="Python" src="https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat-square&logo=python&logoColor=white">
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blue?style=flat-square">
 </p>
