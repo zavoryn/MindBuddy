@@ -18,6 +18,7 @@
 <p align="center">
   <img alt="CI" src="https://github.com/zavoryn/MindBuddy/actions/workflows/ci.yml/badge.svg">
   <img alt="Python" src="https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat-square&logo=python&logoColor=white">
+  <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-4B8BBE?style=flat-square">
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blue?style=flat-square">
 </p>
 
@@ -64,6 +65,19 @@ mindbuddy-gateway
 
 # Scheduled tasks
 mindbuddy-cron
+```
+
+## Running Tests
+
+```bash
+# Run all tests
+python -m pytest -q
+
+# Run specific module tests
+python -m pytest tests/test_agent_loop.py tests/test_session.py -q
+
+# With coverage report
+python -m pytest --cov=mindbuddy --cov-report=html
 ```
 
 ## Claude Code Feature Mapping
