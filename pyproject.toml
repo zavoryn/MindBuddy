@@ -5,10 +5,34 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "mindbuddy"
 version = "0.1.0"
-description = "A lightweight terminal coding assistant for local development workflows."
+description = "轻量级终端 AI 编程助手 — 基于 Python 的 Claude Code 简化实现"
 readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Ming Chen", email = "zavoryn@gmail.com"},
+]
 requires-python = ">=3.11"
 dependencies = []
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Code Generators",
+    "Topic :: Terminals",
+]
+
+[project.urls]
+Homepage = "https://github.com/zavoryn/MindBuddy"
+Repository = "https://github.com/zavoryn/MindBuddy.git"
+Documentation = "https://github.com/zavoryn/MindBuddy#readme"
+Issues = "https://github.com/zavoryn/MindBuddy/issues"
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0.0"]
