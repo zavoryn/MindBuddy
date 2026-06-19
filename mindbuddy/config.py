@@ -713,6 +713,9 @@ def format_config_diagnostic(cwd: str | Path | None = None) -> str:
     # 显示当前配置摘要
     try:
         config = load_runtime_config(cwd)
+    except Exception:
+        config = {}
+    try:
         model_name = config.get('model', 'not set')
         lines.append("")
         lines.append("Current Configuration")
@@ -761,6 +764,6 @@ def format_config_diagnostic(cwd: str | Path | None = None) -> str:
         if config.get('responseVerbosity'):
             lines.append(f"  Response Verbosity: {config.get('responseVerbosity')}")
     except Exception:
-        pass
+        lines.append(f"  Tool Profile: {config.get('toolProfile', 'core')}")
     
     return "\n".join(lines)
