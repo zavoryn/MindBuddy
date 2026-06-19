@@ -3,7 +3,7 @@ from __future__ import annotations
 import hashlib
 import time
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 from mindbuddy.logging_config import get_logger
@@ -21,7 +21,7 @@ class InjectedMemory:
     source: str  # "search", "tag", "category"
 
 
-class MemoryInjectionMode(str, Enum):
+class MemoryInjectionMode(StrEnum):
     NONE = "none"
     SUMMARY = "summary"
     STANDARD = "standard"

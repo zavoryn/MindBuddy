@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 from mindbuddy.config import MINDBUDDY_DIR
@@ -17,7 +17,7 @@ from mindbuddy.config import MINDBUDDY_DIR
 SUPERVISOR_STATE_PATH = MINDBUDDY_DIR / "cybernetic_supervisor.json"
 
 
-class SupervisorRisk(str, Enum):
+class SupervisorRisk(StrEnum):
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"

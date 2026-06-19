@@ -15,21 +15,21 @@ workspace policy, and user intent.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
 from mindbuddy.task_object import ConstraintType, TaskObject
 
 
-class VerificationRisk(str, Enum):
+class VerificationRisk(StrEnum):
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
     CRITICAL = "critical"
 
 
-class VerificationMode(str, Enum):
+class VerificationMode(StrEnum):
     NONE = "none"
     SMOKE = "smoke"
     TARGETED = "targeted"

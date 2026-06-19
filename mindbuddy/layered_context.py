@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 from mindbuddy.logging_config import get_logger
@@ -19,7 +19,7 @@ from mindbuddy.logging_config import get_logger
 logger = get_logger("layered_context")
 
 
-class ContextLayer(str, Enum):
+class ContextLayer(StrEnum):
     SYSTEM = "system"
     PROJECT = "project"
     SESSION = "session"

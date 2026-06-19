@@ -17,14 +17,14 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 # ---------------------------------------------------------------------------
 # Permission modes
 # ---------------------------------------------------------------------------
 
-class PermissionMode(str, Enum):
+class PermissionMode(StrEnum):
     """Permission modes (inspired by Claude Code)."""
     DEFAULT = "default"           # Ask for everything
     AUTO = "auto"                 # Auto-approve safe ops
@@ -36,7 +36,7 @@ class PermissionMode(str, Enum):
 # Risk classification
 # ---------------------------------------------------------------------------
 
-class RiskLevel(str, Enum):
+class RiskLevel(StrEnum):
     """Operation risk levels."""
     SAFE = "safe"                 # Auto-approve
     LOW = "low"                   # Auto-approve with logging

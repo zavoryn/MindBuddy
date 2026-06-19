@@ -13,14 +13,14 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 # ---------------------------------------------------------------------------
 # Provider types
 # ---------------------------------------------------------------------------
 
-class Provider(str, Enum):
+class Provider(StrEnum):
     ANTHROPIC = "anthropic"
     OPENAI = "openai"
     OPENROUTER = "openrouter"
@@ -51,7 +51,7 @@ class ModelInfo:
             self.display_name = self.name
 
 
-class ReasoningEffort(str, Enum):
+class ReasoningEffort(StrEnum):
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"

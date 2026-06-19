@@ -15,7 +15,7 @@ from __future__ import annotations
 import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 from mindbuddy.cybernetic_supervisor import CyberneticSupervisor
@@ -28,7 +28,7 @@ from mindbuddy.verification_controller import VerificationController
 logger = get_logger("pipeline_engine")
 
 
-class StepType(str, Enum):
+class StepType(StrEnum):
     ANALYZE = "analyze"
     PLAN = "plan"
     READ = "read"
@@ -41,7 +41,7 @@ class StepType(str, Enum):
     NOTIFY = "notify"
 
 
-class StepState(str, Enum):
+class StepState(StrEnum):
     PENDING = "pending"
     RUNNING = "running"
     COMPLETED = "completed"

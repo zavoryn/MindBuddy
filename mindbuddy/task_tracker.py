@@ -9,12 +9,12 @@ from __future__ import annotations
 import json
 import time
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 
 from mindbuddy.config import MINDBUDDY_DIR
 
 
-class TaskStatus(str, Enum):
+class TaskStatus(StrEnum):
     """Task status enum."""
 
     PENDING = "pending"

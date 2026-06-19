@@ -11,10 +11,10 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
-from enum import Enum
+from enum import StrEnum
 
 
-class DomainType(str, Enum):
+class DomainType(StrEnum):
     FRONTEND = "frontend"
     BACKEND = "backend"
     DATABASE = "database"

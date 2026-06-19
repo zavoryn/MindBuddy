@@ -21,7 +21,7 @@ import tempfile
 import time
 import uuid
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -31,7 +31,7 @@ from mindbuddy.tooling import ToolResult
 # Risk Assessment
 # ---------------------------------------------------------------------------
 
-class RiskLevel(str, Enum):
+class RiskLevel(StrEnum):
     """Operation risk levels."""
     SAFE = "safe"           # Read-only operations
     LOW = "low"             # Minor writes (config files)

@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any, Protocol
 
 # ---------------------------------------------------------------------------
@@ -120,7 +120,7 @@ def _smart_truncate_output(output: str, tool_name: str, max_chars: int | None = 
 # Tool metadata (inspired by Claude Code's Tool type)
 # ---------------------------------------------------------------------------
 
-class ToolCapability(str, Enum):
+class ToolCapability(StrEnum):
     """Tool capability flags."""
     READ_ONLY = "read_only"
     DESTRUCTIVE = "destructive"

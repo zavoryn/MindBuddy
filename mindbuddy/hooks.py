@@ -19,7 +19,7 @@ import sys
 import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -27,7 +27,7 @@ from typing import Any
 # Hook events
 # ---------------------------------------------------------------------------
 
-class HookEvent(str, Enum):
+class HookEvent(StrEnum):
     """Lifecycle hook events."""
     # Tool lifecycle
     PRE_TOOL_USE = "pre_tool_use"       # Before tool execution

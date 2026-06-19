@@ -11,7 +11,7 @@ import inspect
 import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any, Protocol, runtime_checkable
 
 from mindbuddy.logging_config import get_logger
@@ -19,7 +19,7 @@ from mindbuddy.logging_config import get_logger
 logger = get_logger("capability_registry")
 
 
-class CapabilityDomain(str, Enum):
+class CapabilityDomain(StrEnum):
     FILE = "file"
     CODE = "code"
     SEARCH = "search"
@@ -32,7 +32,7 @@ class CapabilityDomain(str, Enum):
     UNKNOWN = "unknown"
 
 
-class CapabilityScope(str, Enum):
+class CapabilityScope(StrEnum):
     READONLY = "readonly"
     WRITE = "write"
     DESTRUCTIVE = "destructive"

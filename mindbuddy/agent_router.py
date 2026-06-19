@@ -15,7 +15,7 @@ from __future__ import annotations
 import functools
 import time
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 from mindbuddy.logging_config import get_logger
@@ -28,7 +28,7 @@ logger = get_logger("agent_router")
 # Task complexity classification
 # ---------------------------------------------------------------------------
 
-class TaskComplexity(str, Enum):
+class TaskComplexity(StrEnum):
     SIMPLE = "simple"
     MODERATE = "moderate"
     COMPLEX = "complex"

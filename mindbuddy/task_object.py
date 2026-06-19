@@ -9,7 +9,7 @@ from __future__ import annotations
 import time
 import uuid
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 from mindbuddy.intent_parser import ParsedIntent
@@ -18,7 +18,7 @@ from mindbuddy.logging_config import get_logger
 logger = get_logger("task_object")
 
 
-class TaskState(str, Enum):
+class TaskState(StrEnum):
     DRAFT = "draft"
     PLANNED = "planned"
     RUNNING = "running"
@@ -28,7 +28,7 @@ class TaskState(str, Enum):
     CANCELLED = "cancelled"
 
 
-class ConstraintType(str, Enum):
+class ConstraintType(StrEnum):
     MUST_INCLUDE = "must_include"
     MUST_NOT_MODIFY = "must_not_modify"
     MAX_TOKENS = "max_tokens"

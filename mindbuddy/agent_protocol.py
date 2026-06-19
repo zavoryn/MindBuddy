@@ -18,14 +18,14 @@ import time
 import uuid
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 # ---------------------------------------------------------------------------
 # Agent Identity
 # ---------------------------------------------------------------------------
 
-class AgentStatus(str, Enum):
+class AgentStatus(StrEnum):
     """Agent lifecycle status."""
     IDLE = "idle"
     BUSY = "busy"
@@ -33,7 +33,7 @@ class AgentStatus(str, Enum):
     OFFLINE = "offline"
 
 
-class AgentRole(str, Enum):
+class AgentRole(StrEnum):
     """Agent role types."""
     EXPLORER = "explorer"      # Codebase exploration
     PLANNER = "planner"        # Task planning and decomposition
@@ -99,7 +99,7 @@ class AgentIdentity:
 # Collaboration Messages
 # ---------------------------------------------------------------------------
 
-class MessageType(str, Enum):
+class MessageType(StrEnum):
     """Standardized message types for inter-agent communication."""
     TASK_ASSIGN = "task_assign"         # Assign task to agent
     TASK_CLAIM = "task_claim"           # Agent claims available task

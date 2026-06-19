@@ -12,7 +12,7 @@ import re
 import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 # ---------------------------------------------------------------------------
@@ -39,7 +39,7 @@ RETRYABLE_STATUS = {429, 500, 502, 503, 504}
 # Semantic error classification
 # ---------------------------------------------------------------------------
 
-class ErrorCategory(str, Enum):
+class ErrorCategory(StrEnum):
     """Semantic classification of API errors.
     
     Each category has different retry characteristics:

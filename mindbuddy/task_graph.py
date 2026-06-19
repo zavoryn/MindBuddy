@@ -18,7 +18,7 @@ import json
 import time
 import uuid
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -28,7 +28,7 @@ from mindbuddy.config import MINDBUDDY_DIR
 # Task Graph
 # ---------------------------------------------------------------------------
 
-class TaskState(str, Enum):
+class TaskState(StrEnum):
     """Task execution state."""
     PENDING = "pending"
     QUEUED = "queued"
@@ -38,7 +38,7 @@ class TaskState(str, Enum):
     SKIPPED = "skipped"
 
 
-class TaskPriority(str, Enum):
+class TaskPriority(StrEnum):
     """Task priority levels."""
     LOW = "low"
     NORMAL = "normal"

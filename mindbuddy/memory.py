@@ -22,7 +22,7 @@ import re
 import time
 from collections import Counter
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -605,14 +605,14 @@ def _auto_classify_content(content: str) -> tuple[str, list[str]]:
 # Types
 # ---------------------------------------------------------------------------
 
-class MemoryScope(str, Enum):
+class MemoryScope(StrEnum):
     """Memory scope levels."""
     USER = "user"       # Cross-project, ~/.mindbuddy/memory/
     PROJECT = "project" # Project-shared, .mindbuddy-memory/
     LOCAL = "local"     # Project-local, .mindbuddy-memory-local/
 
 
-class MemoryTier(str, Enum):
+class MemoryTier(StrEnum):
     """Memory tier for multi-level storage architecture.
 
     Inspired by human memory models (Atkinson-Shiffrin) and Letta/MemGPT:

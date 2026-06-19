@@ -12,7 +12,7 @@ import json
 import time
 import uuid
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -21,7 +21,7 @@ from mindbuddy.logging_config import get_logger
 logger = get_logger("decision_audit")
 
 
-class DecisionType(str, Enum):
+class DecisionType(StrEnum):
     ROUTING = "routing"
     TOOL_SELECTION = "tool_selection"
     MODEL_SELECTION = "model_selection"
@@ -33,7 +33,7 @@ class DecisionType(str, Enum):
     CUSTOM = "custom"
 
 
-class DecisionOutcome(str, Enum):
+class DecisionOutcome(StrEnum):
     SUCCESS = "success"
     FAILURE = "failure"
     PARTIAL = "partial"

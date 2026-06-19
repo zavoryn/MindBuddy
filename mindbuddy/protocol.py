@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any, Protocol, runtime_checkable
 
 from mindbuddy.logging_config import get_logger
@@ -17,7 +17,7 @@ from mindbuddy.logging_config import get_logger
 logger = get_logger("protocol")
 
 
-class ProtocolType(str, Enum):
+class ProtocolType(StrEnum):
     FILE_OPERATION = "file_operation"
     CODE_ANALYSIS = "code_analysis"
     WEB_ACCESS = "web_access"
@@ -28,7 +28,7 @@ class ProtocolType(str, Enum):
     CUSTOM = "custom"
 
 
-class ProtocolDirection(str, Enum):
+class ProtocolDirection(StrEnum):
     INBOUND = "inbound"
     OUTBOUND = "outbound"
     BIDIRECTIONAL = "bidirectional"

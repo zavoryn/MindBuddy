@@ -9,7 +9,7 @@ from __future__ import annotations
 import re
 import time
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 from mindbuddy.logging_config import get_logger
@@ -17,7 +17,7 @@ from mindbuddy.logging_config import get_logger
 logger = get_logger("intent_parser")
 
 
-class IntentType(str, Enum):
+class IntentType(StrEnum):
     CODE = "code"
     DEBUG = "debug"
     REFACTOR = "refactor"
@@ -34,7 +34,7 @@ class IntentType(str, Enum):
     UNKNOWN = "unknown"
 
 
-class ActionType(str, Enum):
+class ActionType(StrEnum):
     CREATE = "create"
     READ = "read"
     UPDATE = "update"

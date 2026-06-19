@@ -27,7 +27,7 @@ import logging
 import os
 import time
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -39,7 +39,7 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 
-class CompactTrigger(str, Enum):
+class CompactTrigger(StrEnum):
     """How the compaction was triggered."""
     MANUAL = "manual"
     AUTO = "auto"
@@ -48,7 +48,7 @@ class CompactTrigger(str, Enum):
     MICROCOMPACT_CACHED = "microcompact_cached"
 
 
-class CompactStrategy(str, Enum):
+class CompactStrategy(StrEnum):
     """Compaction strategy used."""
     SESSION_MEMORY = "session_memory"
     FULL = "full"

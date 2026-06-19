@@ -34,7 +34,7 @@ jobs:
 
       - name: Lint (ruff)
         run: |
-          python -m pip install ruff
+          python -m pip install "ruff==0.15.18"
           python -m ruff check mindbuddy/ tests/ --select=E,F,B,I,UP --ignore=E501
 
       - name: Check import sorting (isort)
