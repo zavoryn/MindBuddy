@@ -4,8 +4,7 @@ import csv
 import io
 import json
 
-from mindbuddy.tooling import ToolDefinition, ToolContext, ToolResult
-
+from mindbuddy.tooling import ToolContext, ToolDefinition, ToolResult
 
 # ---------------------------------------------------------------------------
 # CSV Parse
@@ -38,7 +37,7 @@ def _run_csv_parse(input_data: dict, context: ToolContext) -> ToolResult:
             headers = rows[0]
             data = rows[1:]
             # Convert to list of dicts
-            result = [dict(zip(headers, row)) for row in data]
+            result = [dict(zip(headers, row, strict=False)) for row in data]
             output = json.dumps(result, indent=2, ensure_ascii=False)
         else:
             output = json.dumps(rows, indent=2, ensure_ascii=False)

@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import threading
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 from mindbuddy.tui.input_parser import KeyEvent, ParsedInputEvent, TextEvent, WheelEvent
 from mindbuddy.tui.navigation import (

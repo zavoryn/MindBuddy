@@ -4,7 +4,8 @@ import os
 import sys
 import time
 import uuid
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 from mindbuddy.tooling import BackgroundTaskResult
 

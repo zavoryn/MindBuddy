@@ -13,9 +13,9 @@ from typing import Any
 from mindbuddy.config import configured_model_fallbacks, default_model_fallbacks
 from mindbuddy.logging_config import get_logger
 from mindbuddy.model_registry import (
+    BUILTIN_MODELS,
     ModelSelectionController,
     ModelSelectionSignal,
-    BUILTIN_MODELS,
     build_provider_config,
     create_model_adapter,
     list_available_models,

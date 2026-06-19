@@ -12,14 +12,13 @@ Tests all core modules after 7 rounds of optimization:
 
 from __future__ import annotations
 
-import os
+# Add parent directory to path
+import sys
 import tempfile
 from pathlib import Path
 
 import pytest
 
-# Add parent directory to path
-import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 
@@ -40,18 +39,13 @@ class TestStartupAndConfig:
 
     def test_logging_system_initialization(self):
         """Test logging system initializes correctly."""
-        from mindbuddy.logging_config import setup_logging, get_logger
+        from mindbuddy.logging_config import setup_logging
         logger = setup_logging(level="DEBUG", log_to_file=False, log_to_console=False)
         assert logger.name == "mindbuddy"
         assert logger.level == 10  # DEBUG level
 
     def test_core_module_imports(self):
         """Test all core modules import without errors."""
-        from mindbuddy.main import main
-        from mindbuddy.logging_config import setup_logging
-        from mindbuddy.context_manager import ContextManager
-        from mindbuddy.memory import MemoryManager
-        from mindbuddy.config import validate_config
         # If we get here, all imports succeeded
         assert True
 
@@ -282,7 +276,6 @@ class TestHelpSystem:
     def test_memory_summary_format(self):
         """Test /memory command output format."""
         from mindbuddy.memory import MemoryManager
-        import tempfile
         with tempfile.TemporaryDirectory() as tmp:
             mem = MemoryManager(workspace=tmp)
             # Use format_stats instead of get_summary

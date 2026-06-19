@@ -11,11 +11,18 @@ import os
 import time
 import urllib.error
 import urllib.request
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 from mindbuddy.api_retry import RETRYABLE_STATUS, calculate_backoff
 from mindbuddy.cost_tracker import calculate_cost
-from mindbuddy.state import Store, AppState, add_cost, record_api_error, update_context_usage
+from mindbuddy.state import (
+    AppState,
+    Store,
+    add_cost,
+    record_api_error,
+    update_context_usage,
+)
 from mindbuddy.types import AgentStep, StepDiagnostics
 
 DEFAULT_MAX_RETRIES = 4

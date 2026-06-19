@@ -4,73 +4,69 @@ import concurrent.futures
 import inspect
 import re
 import time
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
+# 高级控制论模块
+from mindbuddy.agent_intelligence import ErrorClassifier, NudgeGenerator, ToolScheduler
+
+# Intelligence integration
+from mindbuddy.agent_metrics import AgentMetricsCollector
+from mindbuddy.capability_registry import CapabilityDomain, get_registry
 from mindbuddy.config import describe_fallback_guidance, describe_provider_channel
-from mindbuddy.context_manager import ContextManager, estimate_message_tokens
-from mindbuddy.logging_config import get_logger
-from mindbuddy.model_registry import detect_provider
-from mindbuddy.permissions import PermissionManager
-from mindbuddy.state import Store, AppState, increment_tool_calls, set_busy, set_idle
-from mindbuddy.tooling import ToolContext, ToolRegistry, ToolResult
-from mindbuddy.types import (
-    AgentStep,
-    ChatMessage,
-    ModelAdapter,
-    RuntimeEvent,
-    RuntimeEventCategory,
+
+# 上下文管理集成 (Claude Code-style + Engineering Cybernetics)
+from mindbuddy.context_compactor import (
+    AutoCompactConfig,
+    ContextCompactor,
 )
+from mindbuddy.context_cybernetics import ContextCyberneticsOrchestrator
+from mindbuddy.context_manager import ContextManager, estimate_message_tokens
+from mindbuddy.cost_control import CostControlLoop
+
+# 工程控制论集成
+from mindbuddy.cybernetic_orchestrator import CyberneticOrchestrator
+from mindbuddy.cybernetic_supervisor import save_supervisor_report
+from mindbuddy.decision_audit import DecisionOutcome, get_auditor
+from mindbuddy.feedforward_controller import FeedforwardController
 
 # Hooks integration
 from mindbuddy.hooks import HookEvent, fire_hook_sync
 
-# Intelligence integration
-from mindbuddy.agent_metrics import AgentMetricsCollector
-from mindbuddy.agent_intelligence import ErrorClassifier, NudgeGenerator, ToolScheduler
-from mindbuddy.working_memory import get_working_memory, protect_context
-
 # Work chain integration
 from mindbuddy.intent_parser import parse_intent
-from mindbuddy.task_object import build_task, TaskObject, TaskState
-from mindbuddy.task_graph import TaskGraph, TaskState as GraphTaskState
-from mindbuddy.pipeline_engine import get_pipeline_engine
-from mindbuddy.capability_registry import get_registry, CapabilityDomain
 from mindbuddy.layered_context import ContextBuilder, LayeredContext
-from mindbuddy.decision_audit import get_auditor, DecisionOutcome
-from mindbuddy.runtime_profiles import resolve_runtime_profile
-
-# 工程控制论集成
-from mindbuddy.cybernetic_orchestrator import CyberneticOrchestrator
-from mindbuddy.cybernetic_supervisor import CyberneticSupervisor, save_supervisor_report
-from mindbuddy.feedforward_controller import FeedforwardController
-
-# 高级控制论模块
-from mindbuddy.adaptive_pid_tuner import AdaptivePIDTuner
-from mindbuddy.state_observer import StateObserver, MeasurementVector
-from mindbuddy.decoupling_controller import DecouplingController
-from mindbuddy.predictive_controller import PredictiveController
-from mindbuddy.self_healing_engine import SelfHealingEngine
-
-# 任务进度控制
-from mindbuddy.progress_controller import ProgressController, ProgressSignal, ProgressAction
+from mindbuddy.logging_config import get_logger
+from mindbuddy.memory import MemoryManager
 
 # 记忆注入和模型选择控制
-from mindbuddy.memory_injector import MemoryInjectionController, MemoryInjectionSignal, MemoryInjector
-from mindbuddy.model_registry import ModelSelectionController, ModelSelectionSignal
+from mindbuddy.memory_injector import (
+    MemoryInjectionSignal,
+    MemoryInjector,
+)
+from mindbuddy.model_registry import (
+    ModelSelectionSignal,
+    detect_provider,
+)
+from mindbuddy.permissions import PermissionManager
+from mindbuddy.pipeline_engine import get_pipeline_engine
+
+# 任务进度控制
+from mindbuddy.progress_controller import (
+    ProgressAction,
+    ProgressSignal,
+)
+from mindbuddy.runtime_profiles import resolve_runtime_profile
+from mindbuddy.self_healing_engine import SelfHealingEngine
 
 # 智能路由与自省 (Phase 3 导入)
-from mindbuddy.smart_router import SmartRouter, TaskOutcome
-from mindbuddy.agent_reflection import ReflectionEngine
-from mindbuddy.model_switcher import ModelSwitcher
-
-# 上下文管理集成 (Claude Code-style + Engineering Cybernetics)
-from mindbuddy.context_compactor import (
-    ContextCompactor,
-    AutoCompactConfig,
-)
-from mindbuddy.context_cybernetics import ContextCyberneticsOrchestrator
-from mindbuddy.cost_control import CostControlLoop
-from mindbuddy.memory import MemoryManager
+from mindbuddy.smart_router import TaskOutcome
+from mindbuddy.state import AppState, Store, increment_tool_calls, set_busy, set_idle
+from mindbuddy.state_observer import MeasurementVector
+from mindbuddy.task_graph import TaskGraph
+from mindbuddy.task_graph import TaskState as GraphTaskState
+from mindbuddy.task_object import TaskObject, TaskState, build_task
+from mindbuddy.tooling import ToolContext, ToolRegistry, ToolResult
 from mindbuddy.turn_kernel import (
     TurnPreludeState,
     TurnRecurrentState,
@@ -78,12 +74,20 @@ from mindbuddy.turn_kernel import (
     build_stable_task_pack,
     build_turn_coda_summary,
     build_widening_transition_nudge,
-    decide_tool_turn,
     decide_assistant_turn,
+    decide_tool_turn,
     derive_turn_step_policy,
     finalize_work_chain_task,
     render_turn_policy_message,
 )
+from mindbuddy.types import (
+    AgentStep,
+    ChatMessage,
+    ModelAdapter,
+    RuntimeEvent,
+    RuntimeEventCategory,
+)
+from mindbuddy.working_memory import get_working_memory, protect_context
 
 logger = get_logger("agent_loop")
 
@@ -329,7 +333,10 @@ def _register_tool_capabilities(tools: ToolRegistry) -> None:
         return
     for tool_name in tools.list_all():
         try:
-            from mindbuddy.capability_registry import CapabilityMetadata, CapabilityScope
+            from mindbuddy.capability_registry import (
+                CapabilityMetadata,
+                CapabilityScope,
+            )
             tool_def = tools.find(tool_name)
             if not tool_def:
                 continue
@@ -358,7 +365,7 @@ def _register_tool_capabilities(tools: ToolRegistry) -> None:
                 description=tool_def.description or f"Tool: {tool_name}",
                 tags=["tool", tool_name],
             )
-            registry.register(metadata, lambda **kw: tools.execute(tool_name, kw, ToolContext()), None)
+            registry.register(metadata, lambda **kw: tools.execute(tool_name, kw, ToolContext()), None)  # noqa: B023
         except Exception as e:
             logger.debug("Failed to register tool %s as capability: %s", tool_name, e)
 
@@ -1165,8 +1172,8 @@ def run_agent_turn(
                             )
                             # Execute predictive actions via dispatch
                             dispatch: dict[str, Callable[[], None]] = {
-                                "trigger_compaction": lambda: (
-                                    context_cybernetics.try_reactive_recover(current_messages, "predictive")
+                                "trigger_compaction": lambda: (  # noqa: B023
+                                    context_cybernetics.try_reactive_recover(current_messages, "predictive")  # noqa: B023
                                     if context_cybernetics else None
                                 ),
                                 "enable_safe_mode": lambda: logger.info(
@@ -1848,10 +1855,6 @@ def run_agent_turn(
             tool_errors=turn_state.tool_error_count,
         )
         step = turn_state.step
-        tool_error_count = turn_state.tool_error_count
-        task = prelude.task
-        task_metadata = prelude.task_metadata
-        auditor = prelude.auditor
 
         if metrics_collector and metrics_collector._current_turn is not None:
             total_tokens = sum(

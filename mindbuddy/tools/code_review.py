@@ -4,9 +4,9 @@ import ast
 import os
 from pathlib import Path
 from typing import Any
+
 from mindbuddy.tooling import ToolDefinition, ToolResult
 from mindbuddy.workspace import resolve_tool_path
-
 
 # ---------------------------------------------------------------------------
 # Code Review Checks
@@ -33,7 +33,7 @@ def _check_unused_imports(tree: ast.AST, content: str) -> list[dict[str, Any]]:
         # Simple check: search for name in code (excluding import lines)
         lines = content.split("\n")
         used = False
-        for i, line in enumerate(lines):
+        for _i, line in enumerate(lines):
             # Skip import lines
             if line.strip().startswith(("import ", "from ")):
                 continue

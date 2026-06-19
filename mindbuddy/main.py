@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import argparse
-import sys
 import os
+import sys
 from pathlib import Path
 
 from mindbuddy.agent_loop import run_agent_turn
@@ -24,11 +24,11 @@ from mindbuddy.session import (
     load_session,
     rewind_session,
 )
-from mindbuddy.tools import create_default_tool_registry
 from mindbuddy.tooling import ToolContext
+from mindbuddy.tools import create_default_tool_registry
+from mindbuddy.tty_app import run_tty_app
 from mindbuddy.tui.transcript import format_transcript_text
 from mindbuddy.tui.types import TranscriptEntry
-from mindbuddy.tty_app import run_tty_app
 from mindbuddy.workspace import resolve_tool_path
 
 

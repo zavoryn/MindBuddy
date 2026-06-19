@@ -243,6 +243,7 @@ class MemoryCuratorAgent:
             return 0, 0
 
         import os
+
         from mindbuddy.memory import MemoryScope
 
         stale = 0
@@ -310,8 +311,9 @@ class MemoryCuratorAgent:
             for cluster in clusters[:self._max_insights - created]:
                 insight = self._synthesize_insight(cluster)
                 if insight:
-                    from mindbuddy.memory import MemoryEntry, MemoryTier
                     import hashlib
+
+                    from mindbuddy.memory import MemoryEntry, MemoryTier
                     eid = "insight-" + hashlib.md5(
                         insight.encode(), usedforsecurity=False
                     ).hexdigest()[:8]

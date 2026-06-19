@@ -61,12 +61,12 @@ def run_headless(prompt: str | None = None) -> str:
     """
     from mindbuddy.agent_loop import run_agent_turn
     from mindbuddy.config import load_runtime_config
+    from mindbuddy.logging_config import get_logger, setup_logging
     from mindbuddy.memory import MemoryManager
     from mindbuddy.model_registry import create_model_adapter
     from mindbuddy.permissions import PermissionManager
     from mindbuddy.prompt import build_system_prompt
     from mindbuddy.tools import create_default_tool_registry
-    from mindbuddy.logging_config import setup_logging, get_logger
 
     setup_logging(level=os.environ.get("MINDBUDDY_LOG_LEVEL", "WARNING"))
     logger = get_logger("headless")

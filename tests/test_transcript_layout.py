@@ -1,3 +1,4 @@
+import mindbuddy.tui.transcript as transcript_module
 from mindbuddy.tui.state import ScreenState
 from mindbuddy.tui.tool_lifecycle import (
     _append_to_transcript_entry,
@@ -7,7 +8,6 @@ from mindbuddy.tui.tool_lifecycle import (
     _update_transcript_entry,
 )
 from mindbuddy.tui.transcript import render_transcript
-import mindbuddy.tui.transcript as transcript_module
 from mindbuddy.tui.types import TranscriptEntry
 
 

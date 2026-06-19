@@ -5,7 +5,7 @@ import re
 import shlex
 import subprocess
 import sys
-from typing import Sequence
+from collections.abc import Sequence
 
 from mindbuddy.background_tasks import register_background_shell_task
 from mindbuddy.tooling import ToolDefinition, ToolResult

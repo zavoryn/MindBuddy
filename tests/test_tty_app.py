@@ -1,23 +1,23 @@
 from types import SimpleNamespace
 
-from mindbuddy.tty_app import (
-    _ThrottledRenderer,
-    _apply_tool_result_visual_state,
-    _format_history,
-    _mark_unfinished_tools,
-    _save_transcript,
-    summarize_tool_input,
-    summarize_tool_output,
-)
 import mindbuddy.tui.input_handler as input_handler_module
 from mindbuddy.context_manager import ContextManager
 from mindbuddy.permissions import PermissionManager
 from mindbuddy.session import FileCheckpoint, SessionData, SessionMetadata
 from mindbuddy.tooling import ToolRegistry
-from mindbuddy.tui.runtime_control import _ThrottledRenderer as RuntimeThrottledRenderer
+from mindbuddy.tty_app import (
+    _apply_tool_result_visual_state,
+    _format_history,
+    _mark_unfinished_tools,
+    _save_transcript,
+    _ThrottledRenderer,
+    summarize_tool_input,
+    summarize_tool_output,
+)
 from mindbuddy.tui.event_flow import _handle_event
 from mindbuddy.tui.input_parser import KeyEvent
 from mindbuddy.tui.renderer import _decorate_session_feed_body
+from mindbuddy.tui.runtime_control import _ThrottledRenderer as RuntimeThrottledRenderer
 from mindbuddy.tui.session_flow import finalize_tty_session
 from mindbuddy.tui.state import ScreenState, TtyAppArgs
 from mindbuddy.tui.transcript import format_runtime_summary_line, format_transcript_text

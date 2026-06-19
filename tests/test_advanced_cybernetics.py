@@ -8,21 +8,30 @@ Tests for:
 5. Self-Healing Engine
 6. Full Integration Test (all modules working together)
 """
-import pytest
 import time
-import math
+
+import pytest
+
 from mindbuddy.adaptive_pid_tuner import (
-    AdaptivePIDTuner, PIDParameters, TuningMethod,
-    ZieglerNicholsTuner, RelayFeedbackTuner, GradientBasedTuner,
+    AdaptivePIDTuner,
+    GradientBasedTuner,
+    RelayFeedbackTuner,
+    ZieglerNicholsTuner,
 )
-from mindbuddy.state_observer import StateObserver, MeasurementVector, ObservedState, KalmanFilter
-from mindbuddy.decoupling_controller import DecouplingController, CouplingMatrix
-from mindbuddy.predictive_controller import PredictiveController, PredictionHorizon
-from mindbuddy.self_healing_engine import (
-    SelfHealingEngine, FaultType, FaultSeverity, HealingStatus,
-)
+from mindbuddy.decoupling_controller import DecouplingController
 from mindbuddy.feedback_controller import FeedbackController, SystemState
+from mindbuddy.predictive_controller import PredictionHorizon, PredictiveController
+from mindbuddy.self_healing_engine import (
+    FaultType,
+    SelfHealingEngine,
+)
 from mindbuddy.stability_monitor import StabilityMonitor
+from mindbuddy.state_observer import (
+    KalmanFilter,
+    MeasurementVector,
+    ObservedState,
+    StateObserver,
+)
 
 
 class TestAdaptivePIDTuner:
@@ -60,7 +69,7 @@ class TestAdaptivePIDTuner:
     def test_adaptive_tuning_with_large_error(self):
         tuner = AdaptivePIDTuner()
 
-        for i in range(10):
+        for _i in range(10):
             params = tuner.tune(error=0.8, performance_score=0.3)
 
         assert params.kp > 1.0
@@ -69,7 +78,7 @@ class TestAdaptivePIDTuner:
     def test_adaptive_tuning_with_small_error(self):
         tuner = AdaptivePIDTuner()
 
-        for i in range(10):
+        for _i in range(10):
             params = tuner.tune(error=0.05, performance_score=0.9)
 
         assert params.ki >= 0.1
@@ -111,7 +120,7 @@ class TestAdaptivePIDTuner:
         def evaluate(p):
             return abs(p.kp - 2.0) + abs(p.ki - 0.5)
 
-        for i in range(5):
+        for _i in range(5):
             params = tuner.optimize_step(0.5, evaluate)
 
         assert params is not None
@@ -141,7 +150,7 @@ class TestStateObserver:
         kf = KalmanFilter(process_noise=0.01, measurement_noise=0.1,
                          initial_estimate=0.0, initial_uncertainty=1.0)
 
-        for i in range(20):
+        for _i in range(20):
             kf.update(0.7)
 
         assert abs(kf.estimate - 0.7) < 0.1
@@ -149,7 +158,7 @@ class TestStateObserver:
     def test_kalman_filter_confidence(self):
         kf = KalmanFilter(process_noise=0.01, measurement_noise=0.1)
 
-        for i in range(10):
+        for _i in range(10):
             kf.update(0.5)
 
         confidence = kf.get_confidence()
@@ -318,7 +327,7 @@ class TestDecouplingController:
     def test_coupling_status(self):
         controller = DecouplingController()
 
-        for i in range(5):
+        for _i in range(5):
             controller.record_measurement({
                 "token_usage_to_latency": (0.5, 0.6),
             })
@@ -513,7 +522,7 @@ class TestSelfHealingEngine:
 
         actions = engine.detect_and_heal({"memory_usage": 0.95})
 
-        custom_actions = [a for a in actions if a.strategy == "custom_cleanup"]
+        [a for a in actions if a.strategy == "custom_cleanup"]
 
     def test_fault_trend_tracking(self):
         engine = SelfHealingEngine()
@@ -538,15 +547,13 @@ class TestSelfHealingEngine:
 class TestFullCyberneticsIntegration:
     def test_complete_cybernetics_loop(self):
         from mindbuddy.feedback_controller import FeedbackController, SystemState
-        from mindbuddy.feedforward_controller import FeedforwardController
-        from mindbuddy.stability_monitor import StabilityMonitor, MetricSnapshot
 
         feedback = FeedbackController()
         stability = StabilityMonitor()
         observer = StateObserver()
         predictor = PredictiveController()
-        healing = SelfHealingEngine()
-        decoupling = DecouplingController()
+        SelfHealingEngine()
+        DecouplingController()
         pid_tuner = AdaptivePIDTuner()
 
         for step in range(5):
@@ -560,7 +567,7 @@ class TestFullCyberneticsIntegration:
                 pattern_reuse_rate=0.3 + step * 0.1,
             )
 
-            signal = feedback.observe(system_state)
+            feedback.observe(system_state)
 
             measurement = MeasurementVector(
                 timestamp=time.time(),
@@ -570,7 +577,7 @@ class TestFullCyberneticsIntegration:
                 error_count=int(system_state.error_frequency),
                 tool_calls=3,
             )
-            observed = observer.update(measurement)
+            observer.update(measurement)
 
             predictor.update("response_time", system_state.avg_response_time)
             predictor.update("error_rate", system_state.error_frequency)
@@ -579,7 +586,7 @@ class TestFullCyberneticsIntegration:
                 predictor.predict("response_time")
 
             error = 1.0 - system_state.stability_score()
-            pid_params = pid_tuner.tune(error=error, performance_score=system_state.performance_score())
+            pid_tuner.tune(error=error, performance_score=system_state.performance_score())
 
         final_report = stability.get_stability_report()
         assert final_report is not None
@@ -598,7 +605,7 @@ class TestFullCyberneticsIntegration:
                 error_frequency=min(5.0, float(i) * 0.3),
             )
 
-            signal = feedback.observe(state)
+            feedback.observe(state)
 
             measurement = MeasurementVector(
                 timestamp=time.time(),
@@ -635,7 +642,7 @@ class TestFullCyberneticsIntegration:
                 error_frequency=max(0.0, 4.0 - i * 0.3),
             )
 
-            signal = feedback.observe(state)
+            feedback.observe(state)
             measurement = MeasurementVector(
                 timestamp=time.time(),
                 response_time=state.avg_response_time,

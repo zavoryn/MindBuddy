@@ -1,9 +1,6 @@
 """Tests for new core features: context management, API retry, task tracking, memory."""
 
-import json
-import time
-from pathlib import Path
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 import pytest
 
@@ -18,7 +15,6 @@ from mindbuddy.api_retry import (
 )
 from mindbuddy.context_manager import (
     ContextManager,
-    ContextStats,
     estimate_message_tokens,
     estimate_messages_tokens,
     estimate_tokens,
@@ -40,7 +36,6 @@ from mindbuddy.task_tracker import (
     format_task_progress_bar,
     format_task_update,
 )
-
 
 # ---------------------------------------------------------------------------
 # Context Manager Tests
@@ -98,7 +93,7 @@ def test_context_manager_should_compact():
     manager = ContextManager(model="default", context_window=1000)
     
     # Add messages to exceed 95%
-    for i in range(50):
+    for _i in range(50):
         manager.add_message({"role": "user", "content": "x" * 100})
     
     assert manager.should_auto_compact()

@@ -88,15 +88,15 @@ class ProtocolMessage:
         }
 
     @classmethod
-    def request(cls, protocol_name: str, payload: dict[str, Any], correlation_id: str = "") -> "ProtocolMessage":
+    def request(cls, protocol_name: str, payload: dict[str, Any], correlation_id: str = "") -> ProtocolMessage:
         return cls(protocol_name=protocol_name, message_type="request", payload=payload, correlation_id=correlation_id)
 
     @classmethod
-    def response(cls, protocol_name: str, payload: dict[str, Any], correlation_id: str) -> "ProtocolMessage":
+    def response(cls, protocol_name: str, payload: dict[str, Any], correlation_id: str) -> ProtocolMessage:
         return cls(protocol_name=protocol_name, message_type="response", payload=payload, correlation_id=correlation_id)
 
     @classmethod
-    def error(cls, protocol_name: str, error_code: str, error_message: str, correlation_id: str = "") -> "ProtocolMessage":
+    def error(cls, protocol_name: str, error_code: str, error_message: str, correlation_id: str = "") -> ProtocolMessage:
         return cls(protocol_name=protocol_name, message_type="error", payload={"code": error_code, "message": error_message}, correlation_id=correlation_id)
 
 

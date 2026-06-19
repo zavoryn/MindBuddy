@@ -8,10 +8,9 @@ and likely latest-state candidates to a reader.
 from __future__ import annotations
 
 import re
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Callable
-
 
 TOKEN_RE = re.compile(r"[a-zA-Z0-9]+")
 MONTHS = {
@@ -2234,7 +2233,7 @@ def _extract_numeric_fact_records(text: str, *, date: str, evidence_id: str) -> 
             records.append(_numeric_state(subject="user", attribute="college graduation age", value=match.group("value"), date=date, evidence=source, evidence_id=evidence_id))
     for match in re.finditer(r"\bgot\s+a\s+new\s+(?P<value>silver\s+necklace[^.?!;\n]{0,60}|pair\s+of\s+emerald\s+earrings|engagement\s+ring)\b", source, re.IGNORECASE):
         records.append(_numeric_state(subject=_clean_value(match.group("value")), attribute="jewelry acquired item", value="1", date=date, evidence=source, evidence_id=evidence_id))
-    for match in re.finditer(r"\bI\s+got\s+my\s+engagement\s+ring\s+a\s+month\s+ago\b", source, re.IGNORECASE):
+    for _match in re.finditer(r"\bI\s+got\s+my\s+engagement\s+ring\s+a\s+month\s+ago\b", source, re.IGNORECASE):
         records.append(_numeric_state(subject="engagement ring", attribute="jewelry acquired item", value="1", date=date, evidence=source, evidence_id=evidence_id))
     for match in re.finditer(r"\braised\s+\$(?P<value>\d[\d,]*(?:\.\d+)?)\s+for\s+(?:the\s+)?(?P<subject>[^.?!;\n]+)\b", source, re.IGNORECASE):
         records.append(_numeric_state(subject=match.group("subject"), attribute="charity amount raised", value=match.group("value"), date=date, evidence=source, evidence_id=evidence_id))

@@ -1,7 +1,7 @@
+import json
+import time
 from dataclasses import dataclass, field
 from enum import Enum
-import time
-import json
 from pathlib import Path
 
 

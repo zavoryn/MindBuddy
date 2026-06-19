@@ -3,9 +3,9 @@ from __future__ import annotations
 import time
 from datetime import datetime
 from pathlib import Path
+
 from mindbuddy.tooling import ToolDefinition, ToolResult
 from mindbuddy.workspace import resolve_tool_path
-
 
 # ---------------------------------------------------------------------------
 # File Tree Helpers

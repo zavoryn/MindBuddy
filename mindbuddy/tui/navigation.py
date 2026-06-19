@@ -3,11 +3,12 @@ from __future__ import annotations
 from typing import Any
 
 from mindbuddy.cli_commands import SLASH_COMMANDS, find_matching_slash_commands
-from mindbuddy.tui.chrome import _cached_terminal_size
+from mindbuddy.tui.chrome import (
+    _cached_terminal_size,
+    get_permission_prompt_max_scroll_offset,
+)
 from mindbuddy.tui.state import ScreenState, TtyAppArgs
-from mindbuddy.tui.chrome import get_permission_prompt_max_scroll_offset
 from mindbuddy.tui.transcript import get_transcript_max_scroll_offset
-
 
 _HEADER_LINES_ESTIMATE = 11
 _PROMPT_LINES_ESTIMATE = 7

@@ -175,7 +175,7 @@ class MemoryPipeline:
             import os
             if not os.path.exists(path):
                 return
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 state = json.load(f)
             self._read_count = state.get("read_count", 0)
             self._write_count = state.get("write_count", 0)

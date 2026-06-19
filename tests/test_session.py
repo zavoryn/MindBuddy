@@ -1,16 +1,11 @@
 """Tests for session persistence and resume functionality."""
 
-import json
-import os
-import tempfile
-from pathlib import Path
 from unittest.mock import patch
 
 import pytest
 
 from mindbuddy.session import (
     AutosaveManager,
-    SessionData,
     SessionMetadata,
     _runtime_summary_from_transcript_entries,
     cleanup_old_sessions,
@@ -18,16 +13,16 @@ from mindbuddy.session import (
     create_new_session,
     delete_session,
     format_checkpoint_summary_line,
-    format_session_inspect,
     format_session_checkpoints,
+    format_session_inspect,
     format_session_list,
     format_session_replay,
     format_session_resume,
     get_latest_session,
     list_sessions,
     load_session,
-    rewind_session_data,
     rewind_session,
+    rewind_session_data,
     save_session,
 )
 

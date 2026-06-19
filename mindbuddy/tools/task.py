@@ -16,7 +16,6 @@ import time
 from mindbuddy.agent_loop import run_agent_turn
 from mindbuddy.tooling import ToolDefinition, ToolResult
 
-
 # ---------------------------------------------------------------------------
 # Agent type definitions
 # ---------------------------------------------------------------------------

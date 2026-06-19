@@ -17,8 +17,6 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
-
 
 # ---------------------------------------------------------------------------
 # Data structures
@@ -237,11 +235,11 @@ class UserProfileManager:
     def project_path(self) -> Path:
         return self._project_path
 
-    def load_global(self) -> Optional[UserProfile]:
+    def load_global(self) -> UserProfile | None:
         """Load global profile from ~/.mindbuddy/USER.md."""
         return self._load_from(self._global_path)
 
-    def load_project(self) -> Optional[UserProfile]:
+    def load_project(self) -> UserProfile | None:
         """Load project profile from .mindbuddy/USER.md."""
         return self._load_from(self._project_path)
 
@@ -347,7 +345,7 @@ class UserProfileManager:
     # -----------------------------------------------------------------------
 
     @staticmethod
-    def _load_from(path: Path) -> Optional[UserProfile]:
+    def _load_from(path: Path) -> UserProfile | None:
         """Load a profile from a specific path."""
         if not path.exists() or not path.is_file():
             return None

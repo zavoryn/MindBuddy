@@ -3,9 +3,8 @@ from __future__ import annotations
 
 from mindbuddy.feedforward_controller import (
     FeedforwardController,
-    PreemptiveConfig,
     PreemptionLevel,
-    RiskAssessment,
+    PreemptiveConfig,
 )
 from mindbuddy.intent_parser import ActionType, IntentType, ParsedIntent
 

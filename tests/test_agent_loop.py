@@ -1,3 +1,5 @@
+from types import SimpleNamespace
+
 from mindbuddy.agent_loop import run_agent_turn
 from mindbuddy.model_switcher import ModelSwitcher
 from mindbuddy.state import create_app_store
@@ -9,7 +11,6 @@ from mindbuddy.types import (
     RuntimeEvent,
     StepDiagnostics,
 )
-from types import SimpleNamespace
 
 
 class ScriptedModel(ModelAdapter):

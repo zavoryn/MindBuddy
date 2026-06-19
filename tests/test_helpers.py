@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 from typing import Any
+
 from mindbuddy.memory import MemoryEntry, MemoryManager, MemoryScope
 
 

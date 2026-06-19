@@ -13,15 +13,16 @@ The Pipeline Engine:
 from __future__ import annotations
 
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable
+from typing import Any
 
-from mindbuddy.task_object import TaskObject, TaskState, ConstraintType
 from mindbuddy.cybernetic_supervisor import CyberneticSupervisor
-from mindbuddy.decision_audit import get_auditor, DecisionType, DecisionOutcome
+from mindbuddy.decision_audit import DecisionOutcome, DecisionType, get_auditor
 from mindbuddy.logging_config import get_logger
 from mindbuddy.progress_controller import ProgressController, ProgressSignal
+from mindbuddy.task_object import ConstraintType, TaskObject, TaskState
 from mindbuddy.verification_controller import VerificationController
 
 logger = get_logger("pipeline_engine")

@@ -2,10 +2,9 @@ from __future__ import annotations
 
 import hashlib
 import hmac
-from datetime import datetime, timezone, timedelta
+from datetime import UTC, datetime, timedelta
 
-from mindbuddy.tooling import ToolDefinition, ToolContext, ToolResult
-
+from mindbuddy.tooling import ToolContext, ToolDefinition, ToolResult
 
 # ---------------------------------------------------------------------------
 # Current Time
@@ -21,14 +20,14 @@ def _run_current_time(input_data: dict, context: ToolContext) -> ToolResult:
         if tz_name == "local":
             now = datetime.now()
         elif tz_name == "UTC":
-            now = datetime.now(timezone.utc)
+            now = datetime.now(UTC)
         else:
             # Try to find timezone offset
-            now = datetime.now(timezone.utc)
+            now = datetime.now(UTC)
             # Simple handling for common zones
             offsets = {"EST": -5, "EDT": -4, "CST": -6, "CDT": -5, "PST": -8, "PDT": -7, "JST": 9, "CET": 1, "CEST": 2}
             offset_hours = offsets.get(tz_name.upper(), 0)
-            now = datetime.now(timezone.utc) + timedelta(hours=offset_hours)
+            now = datetime.now(UTC) + timedelta(hours=offset_hours)
     
     except Exception:
         now = datetime.now()
@@ -84,7 +83,7 @@ def _run_timestamp(input_data: dict, context: ToolContext) -> ToolResult:
         if direction == "to_iso":
             # Unix timestamp -> ISO
             ts = int(value)
-            dt = datetime.fromtimestamp(ts, tz=timezone.utc)
+            dt = datetime.fromtimestamp(ts, tz=UTC)
             output = dt.isoformat()
         else:
             # ISO -> Unix timestamp

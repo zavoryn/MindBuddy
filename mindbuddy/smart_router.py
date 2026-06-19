@@ -89,7 +89,7 @@ class FeedbackLearner:
         if self._dirty:
             self._save()
 
-    @functools.lru_cache(maxsize=64)
+    @functools.lru_cache(maxsize=64)  # noqa: B019
     def get_model_score(self, model: str) -> float:
         """Get performance score for a model (0-1)."""
         perf = self._model_performance.get(model)

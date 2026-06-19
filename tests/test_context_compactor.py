@@ -12,30 +12,23 @@ Tests all 7 phases:
 """
 from __future__ import annotations
 
-import os
 import time
-import tempfile
-
-import pytest
 
 from mindbuddy.context_compactor import (
     AutoCompactConfig,
     AutoCompactDispatcher,
     CompactBoundary,
+    CompactionResult,
     CompactStrategy,
     CompactTrigger,
-    CompactionResult,
     ContextCompactor,
     MicrocompactEngine,
     MicrocompactState,
-    ReadDedupEntry,
-    ReadDedupManager,
     ReactiveCompactEngine,
+    ReadDedupManager,
     SessionMemoryCompactEngine,
     ToolResultBudgetManager,
-    ToolResultPersisted,
 )
-
 
 # ---------------------------------------------------------------------------
 # Phase 1: Core Data Structures
@@ -430,7 +423,7 @@ class TestSessionMemoryCompactEngine:
         msgs = []
         for i in range(40):
             role = "user" if i % 2 == 0 else "assistant"
-            msgs.append({f"role": role, "content": f"message {i} " * 10})
+            msgs.append({"role": role, "content": f"message {i} " * 10})
 
         config = AutoCompactConfig(max_expand_tokens=5000)
         result = engine.try_session_memory_compact(
@@ -636,7 +629,7 @@ class TestContextCompactorOrchestrator:
         msgs = [{"role": "user", "content": "start"}]
         for i in range(15):
             msgs.append({"role": "tool_result", "toolName": f"t{i}", "content": f"data {i}\n" * 20})
-        result = compactor.process_request(msgs, enable_auto_compact=False)
+        compactor.process_request(msgs, enable_auto_compact=False)
         # Microcompact may or may not fire depending on timing
 
     def test_process_request_runs_auto_compact(self, tmp_path):

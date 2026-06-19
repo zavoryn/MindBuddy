@@ -11,9 +11,6 @@ from __future__ import annotations
 
 import os
 import sys
-import json
-import shutil
-import tempfile
 import textwrap
 from pathlib import Path
 from typing import Any
@@ -24,17 +21,19 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from mindbuddy.agent_loop import run_agent_turn
+from mindbuddy.config import MINDBUDDY_DIR, load_effective_settings
+from mindbuddy.context_manager import ContextManager
 from mindbuddy.mock_model import MockModelAdapter
 from mindbuddy.permissions import PermissionManager
-from mindbuddy.tooling import ToolContext, ToolRegistry, ToolDefinition, ToolResult
-from mindbuddy.tools import create_default_tool_registry
-from mindbuddy.types import AgentStep, ChatMessage
-from mindbuddy.context_manager import ContextManager
-from mindbuddy.session import SessionData, save_session, load_session, list_sessions
-from mindbuddy.config import load_effective_settings, MINDBUDDY_DIR
 from mindbuddy.prompt import build_system_prompt
-from mindbuddy.tui.types import TranscriptEntry, _create_transcript_entry, _recycle_transcript_entry
-
+from mindbuddy.session import SessionData, list_sessions, load_session, save_session
+from mindbuddy.tooling import ToolRegistry
+from mindbuddy.tools import create_default_tool_registry
+from mindbuddy.tui.types import (
+    _create_transcript_entry,
+    _recycle_transcript_entry,
+)
+from mindbuddy.types import AgentStep, ChatMessage
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -188,7 +187,7 @@ class TestAgentLoopIntegration:
             "content": "/write output.txt::Test content from integration test",
         })
 
-        result = run_agent_turn(
+        run_agent_turn(
             model=mock_model,
             tools=tools,
             messages=system_messages,
@@ -211,7 +210,7 @@ class TestAgentLoopIntegration:
             "content": "/edit hello.txt::Hello, world!::Hello, MindBuddy!",
         })
 
-        result = run_agent_turn(
+        run_agent_turn(
             model=mock_model,
             tools=tools,
             messages=system_messages,

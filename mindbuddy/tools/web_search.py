@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-import urllib.request
 import urllib.parse
+import urllib.request
+
 from mindbuddy.tooling import ToolDefinition, ToolResult
 
 MAX_RESULTS = 10

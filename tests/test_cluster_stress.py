@@ -7,11 +7,12 @@ performance, and resource limit enforcement under load.
 from __future__ import annotations
 
 import concurrent.futures
-import sys
 import tempfile
 import threading
 import time
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 
 try:
     import pytest
@@ -56,7 +57,7 @@ class ConcurrentToolRegistry:
         self._concurrent_max = 0
         self._current_executions = 0
         
-        from mindbuddy.tooling import ToolMetadata, ToolCapability
+        from mindbuddy.tooling import ToolCapability, ToolMetadata
         
         tools = []
         for i in range(num_tools):
@@ -281,7 +282,7 @@ class TestAgentLoopPerformance:
             model = DelayedModel(delay=0.001)
 
             start = time.time()
-            messages = run_agent_turn(
+            run_agent_turn(
                 model=model,
                 tools=registry.registry,
                 messages=[{"role": "system", "content": "sys"}],
@@ -306,7 +307,7 @@ class TestAgentLoopPerformance:
 
         # Serial execution
         def run_serial():
-            for i in range(num_tools):
+            for _i in range(num_tools):
                 time.sleep(tool_delay)
 
         start = time.perf_counter()

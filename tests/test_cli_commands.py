@@ -1,4 +1,8 @@
-from mindbuddy.cli_commands import find_matching_slash_commands, format_slash_commands, try_handle_local_command
+from mindbuddy.cli_commands import (
+    find_matching_slash_commands,
+    format_slash_commands,
+    try_handle_local_command,
+)
 from mindbuddy.local_tool_shortcuts import parse_local_tool_shortcut
 from mindbuddy.session import FileCheckpoint, SessionData, SessionMetadata
 
@@ -548,7 +552,11 @@ def test_cybernetics_command_shows_controller_inventory() -> None:
 
 def test_cybernetics_command_uses_persisted_report(tmp_path, monkeypatch) -> None:
     import mindbuddy.cybernetic_supervisor as supervisor_module
-    from mindbuddy.cybernetic_supervisor import ControlSnapshot, CyberneticSupervisor, save_supervisor_report
+    from mindbuddy.cybernetic_supervisor import (
+        ControlSnapshot,
+        CyberneticSupervisor,
+        save_supervisor_report,
+    )
 
     monkeypatch.setattr(
         supervisor_module,

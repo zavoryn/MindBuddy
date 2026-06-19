@@ -10,10 +10,10 @@ from __future__ import annotations
 import random
 import re
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable
-
+from typing import Any
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -304,8 +304,8 @@ def retry_with_backoff(
                     attempts=attempt + 1,
                     last_error=e,
                     category=category,
-                )
-            
+                ) from e
+
             # Extract Retry-After header if available
             retry_after = getattr(e, "retry_after", None)
             
@@ -474,8 +474,8 @@ async def retry_with_backoff_async(
                     attempts=attempt + 1,
                     last_error=e,
                     category=category,
-                )
-            
+                ) from e
+
             retry_after = getattr(e, "retry_after", None)
             wait_time = calculate_backoff(
                 attempt,

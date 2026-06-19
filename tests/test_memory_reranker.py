@@ -3,16 +3,12 @@ from __future__ import annotations
 
 import json
 
-import pytest
-
 from mindbuddy.memory import MemoryEntry, MemoryScope
 from mindbuddy.memory_reranker import (
     MemoryReranker,
-    RerankCandidate,
     RerankResult,
     create_reranker,
 )
-
 
 # ── Mock model adapter ──────────────────────────────────────────────
 

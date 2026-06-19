@@ -4,9 +4,9 @@ import ast
 import os
 from pathlib import Path
 from typing import Any
+
 from mindbuddy.tooling import ToolDefinition, ToolResult
 from mindbuddy.workspace import resolve_tool_path
-
 
 # ---------------------------------------------------------------------------
 # AST Analysis Helpers

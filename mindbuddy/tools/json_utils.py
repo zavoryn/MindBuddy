@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 
-from mindbuddy.tooling import ToolDefinition, ToolContext, ToolResult
+from mindbuddy.tooling import ToolContext, ToolDefinition, ToolResult
 
 
 def _validate(input_data: dict) -> dict:

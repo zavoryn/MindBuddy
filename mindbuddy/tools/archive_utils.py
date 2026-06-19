@@ -6,7 +6,7 @@ import tarfile
 import zipfile
 from pathlib import Path
 
-from mindbuddy.tooling import ToolDefinition, ToolContext, ToolResult
+from mindbuddy.tooling import ToolContext, ToolDefinition, ToolResult
 from mindbuddy.workspace import resolve_tool_path
 
 

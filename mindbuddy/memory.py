@@ -683,7 +683,7 @@ class MemoryEntry:
         }
     
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "MemoryEntry":
+    def from_dict(cls, data: dict[str, Any]) -> MemoryEntry:
         """Create from dictionary."""
         return cls(
             id=data["id"],
@@ -938,7 +938,7 @@ class MemoryPaths:
     local_memory: Path
     
     @classmethod
-    def for_workspace(cls, workspace: str) -> "MemoryPaths":
+    def for_workspace(cls, workspace: str) -> MemoryPaths:
         """Create memory paths for a workspace."""
         workspace_path = Path(workspace)
         

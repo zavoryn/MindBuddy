@@ -10,29 +10,27 @@ Covers all 7 components of the closed-loop control system:
   7. ContextCyberneticsOrchestrator — full sense-think-act cycle
 """
 
-import math
 import time
+
 import pytest
 
+from mindbuddy.context_compactor import (
+    AutoCompactConfig,
+    CompactionResult,
+    CompactStrategy,
+    CompactTrigger,
+    ContextCompactor,
+)
 from mindbuddy.context_cybernetics import (
+    AdaptiveThresholdManager,
     AnomalyType,
+    CompactionStrategySelector,
     ContextCyberneticsOrchestrator,
     ContextPIDController,
-    ContextPressureReading,
     ContextPressureSensor,
     ControlAction,
     CyberneticFeedbackLoop,
-    PredictiveOutlook,
     PredictiveOverflowGuard,
-    AdaptiveThresholdManager,
-    CompactionStrategySelector,
-)
-from mindbuddy.context_compactor import (
-    AutoCompactConfig,
-    CompactStrategy,
-    CompactTrigger,
-    CompactionResult,
-    ContextCompactor,
 )
 
 
@@ -123,14 +121,14 @@ class TestContextPIDController:
     def test_second_call_above_setpoint_produces_positive_output(self):
         pid = ContextPIDController(kp=2.0, setpoint=0.70)
         pid.compute(0.70)
-        import time as _t; _t.sleep(0.01)
+        time.sleep(0.01)
         output = pid.compute(0.90)
         assert output > 0
 
     def test_second_call_below_setpoint_stays_minimal(self):
         pid = ContextPIDController(kp=2.0, setpoint=0.70)
         pid.compute(0.70)
-        import time as _t; _t.sleep(0.01)
+        time.sleep(0.01)
         output = pid.compute(0.50)
         assert output == 0.0
 
@@ -173,9 +171,8 @@ class TestContextPIDController:
     def test_not_saturated_normal_operation(self):
         pid = ContextPIDController(kp=0.5, ki=0.01, kd=0.1, setpoint=0.70)
         pid.compute(0.70)
-        import time as _t
         for i in range(12):
-            _t.sleep(0.005)
+            time.sleep(0.005)
             pid.compute(0.68 + (i % 3) * 0.02)  # tight range around setpoint
         assert pid.is_saturated is False
 
@@ -390,7 +387,7 @@ class TestCyberneticFeedbackLoop:
         result = make_result(CompactStrategy.FULL, 500)
         usages_before = [0.85, 0.82, 0.87, 0.79, 0.86, 0.78]
         usages_after = [0.60, 0.72, 0.58, 0.71, 0.57, 0.73]
-        for b, a in zip(usages_before, usages_after):
+        for b, a in zip(usages_before, usages_after, strict=False):
             loop.record(action, result, b, a)
         assert loop.detect_oscillation() is True
 
@@ -398,7 +395,7 @@ class TestCyberneticFeedbackLoop:
         loop = CyberneticFeedbackLoop()
         action = ControlAction(compaction_intensity=0.5, strategy=CompactStrategy.FULL)
         result = make_result(CompactStrategy.FULL, 300)
-        for b, a in zip([0.86]*6, [0.55, 0.75, 0.53, 0.77, 0.54, 0.76]):
+        for b, a in zip([0.86]*6, [0.55, 0.75, 0.53, 0.77, 0.54, 0.76], strict=False):
             loop.record(action, result, b, a)
         adj = loop.recommend_pid_adjustment()
         assert adj is not None

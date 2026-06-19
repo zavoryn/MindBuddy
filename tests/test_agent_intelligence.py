@@ -2,23 +2,10 @@
 
 from __future__ import annotations
 
-import json
-import time
-from pathlib import Path
 from unittest.mock import MagicMock
 
-import pytest
-
-from mindbuddy.agent_metrics import (
-    AgentMetricsCollector,
-    AgentTurnMetrics,
-    ErrorCategory,
-    ToolExecutionRecord,
-    ToolHistoricalStats,
-)
 from mindbuddy.agent_intelligence import (
     ClassifiedError,
-    ErrorCategory as AIErrorCategory,
     ErrorClassifier,
     NudgeGenerator,
     RecoveryStrategy,
@@ -26,6 +13,16 @@ from mindbuddy.agent_intelligence import (
     ToolSchedulerController,
     ToolSchedulingSignal,
 )
+from mindbuddy.agent_intelligence import (
+    ErrorCategory as AIErrorCategory,
+)
+from mindbuddy.agent_metrics import (
+    AgentMetricsCollector,
+    AgentTurnMetrics,
+    ErrorCategory,
+    ToolExecutionRecord,
+)
+from mindbuddy.memory import MemoryScope
 from mindbuddy.memory_injector import (
     InjectedMemory,
     MemoryInjectionController,
@@ -33,9 +30,7 @@ from mindbuddy.memory_injector import (
     MemoryInjectionSignal,
     MemoryInjector,
 )
-from mindbuddy.memory import MemoryManager, MemoryScope
 from mindbuddy.tooling import ToolCapability, ToolDefinition, ToolMetadata, ToolRegistry
-
 
 # ---------------------------------------------------------------------------
 # TestAgentMetricsCollector
@@ -455,7 +450,7 @@ class TestMemoryInjector:
             memory_manager=memory_with_entries,
             injection_cooldown=60.0,
         )
-        first = injector.inject_for_task("test query")
+        injector.inject_for_task("test query")
         # Same query immediately after should be skipped
         second = injector.inject_for_task("test query")
         assert second == []
@@ -570,8 +565,8 @@ class TestAgentLoopIntegration:
     def test_error_recovery_integration(self):
         """Error classification in loop."""
         from mindbuddy.agent_loop import run_agent_turn
-        from mindbuddy.types import AgentStep, ToolCall
         from mindbuddy.tooling import ToolResult
+        from mindbuddy.types import AgentStep, ToolCall
 
         # Tool that always fails with a network error
         def failing_runner(args, ctx):
@@ -619,8 +614,8 @@ class TestAgentLoopIntegration:
     def test_scheduler_integration(self):
         """Tool scheduling in loop."""
         from mindbuddy.agent_loop import run_agent_turn
-        from mindbuddy.types import AgentStep, ToolCall
         from mindbuddy.tooling import ToolResult
+        from mindbuddy.types import AgentStep, ToolCall
 
         results_log: list[str] = []
 

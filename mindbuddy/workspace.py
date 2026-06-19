@@ -18,7 +18,7 @@ def resolve_tool_path(context: ToolContext, input_path: str, intent: str) -> Pat
         try:
             normalized.relative_to(workspace_root)
         except ValueError:
-            raise PermissionError(f"Path escapes workspace: {input_path}")
+            raise PermissionError(f"Path escapes workspace: {input_path}") from None
 
     return normalized
 

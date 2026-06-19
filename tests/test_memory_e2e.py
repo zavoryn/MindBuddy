@@ -10,28 +10,23 @@ import json
 import sys
 import textwrap
 from pathlib import Path
-from typing import Any
-from unittest.mock import patch
 
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from mindbuddy.agent_loop import run_agent_turn
 from mindbuddy.memory import (
-    MemoryEntry,
     MemoryManager,
     MemoryScope,
-    inject_memory_into_prompt,
     _tokenize,
+    inject_memory_into_prompt,
 )
-from mindbuddy.agent_loop import run_agent_turn
 from mindbuddy.mock_model import MockModelAdapter
 from mindbuddy.permissions import PermissionManager
-from mindbuddy.tools import create_default_tool_registry
 from mindbuddy.prompt import build_system_prompt
-from mindbuddy.context_manager import ContextManager
+from mindbuddy.tools import create_default_tool_registry
 from mindbuddy.types import AgentStep
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -330,7 +325,7 @@ class TestMultiTurnMemoryAccumulation:
         )
         injected = inject_memory_into_prompt(base_prompt, mm)
 
-        for i in range(5):
+        for _i in range(5):
             msgs = [
                 {"role": "system", "content": injected},
                 {"role": "user", "content": "/ls"},

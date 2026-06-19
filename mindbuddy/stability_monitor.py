@@ -183,7 +183,7 @@ class StabilityMonitor:
             return len(self._anomalies)
         return sum(1 for a in self._anomalies if a.timestamp >= since)
 
-    def feed_orchestrator(self, orchestrator: "ContextCyberneticsOrchestrator") -> None:
+    def feed_orchestrator(self, orchestrator: ContextCyberneticsOrchestrator) -> None:  # noqa: F821
         """Push latest MetricSnapshot into the cybernetics orchestrator.
 
         Bridges StabilityMonitor (system-level observer) with

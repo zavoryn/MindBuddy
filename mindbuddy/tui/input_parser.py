@@ -1,7 +1,8 @@
 from __future__ import annotations
+
 import re
 from dataclasses import dataclass
-from typing import Union, Literal
+from typing import Literal
 
 # Pre-compiled regexes for escape sequence parsing
 _SGR_MOUSE_RE = re.compile(r'^\x1b\[<(\d+);(\d+);(\d+)([Mm])')
@@ -35,7 +36,7 @@ class WheelEvent:
     direction: Literal['up', 'down']
     kind: str = "wheel"
 
-ParsedInputEvent = Union[KeyEvent, TextEvent, WheelEvent]
+ParsedInputEvent = KeyEvent | TextEvent | WheelEvent
 
 @dataclass(frozen=True)
 class ParseResult:

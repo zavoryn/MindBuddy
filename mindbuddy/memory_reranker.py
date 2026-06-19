@@ -51,11 +51,11 @@ class RerankResult:
     timestamp: float = field(default_factory=time.time)
 
     @classmethod
-    def empty(cls) -> "RerankResult":
+    def empty(cls) -> RerankResult:
         return cls(selected_ids=[], rejected=[], conflicts=[], summary="")
 
     @classmethod
-    def fallback(cls, candidate_ids: list[str]) -> "RerankResult":
+    def fallback(cls, candidate_ids: list[str]) -> RerankResult:
         """Fallback result: take top candidates as-is."""
         n = min(5, len(candidate_ids))
         return cls(

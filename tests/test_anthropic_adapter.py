@@ -2,6 +2,7 @@ import json
 import urllib.error
 
 import pytest
+
 from mindbuddy.anthropic_adapter import AnthropicModelAdapter, _messages_endpoint
 from mindbuddy.model_registry import create_model_adapter
 from mindbuddy.tooling import ToolDefinition, ToolRegistry

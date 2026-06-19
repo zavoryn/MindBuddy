@@ -3,14 +3,14 @@ from __future__ import annotations
 import json
 import os
 import sys
+from collections.abc import Callable
 from functools import lru_cache
 from pathlib import Path
-from typing import Any, Callable, Literal
-
-from mindbuddy.config import MINDBUDDY_PERMISSIONS_PATH
+from typing import Any, Literal
 
 # Auto mode integration
 from mindbuddy.auto_mode import AutoModeChecker, PermissionMode, get_mode_state
+from mindbuddy.config import MINDBUDDY_PERMISSIONS_PATH
 
 # 权限决策类型 — 对齐 TS 版 PermissionDecision
 PermissionDecision = Literal[
@@ -167,7 +167,7 @@ def _read_permission_store() -> dict[str, Any]:
     except (json.JSONDecodeError, OSError) as e:
         # 损坏的文件 — 返回空存储并记录警告
         import warnings
-        warnings.warn(f"Corrupted permissions file, resetting: {e}")
+        warnings.warn(f"Corrupted permissions file, resetting: {e}", stacklevel=2)
         return {}
 
 

@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import uuid
 
-from mindbuddy.tooling import ToolDefinition, ToolContext, ToolResult
-
+from mindbuddy.tooling import ToolContext, ToolDefinition, ToolResult
 
 # ---------------------------------------------------------------------------
 # UUID Generate
@@ -199,7 +198,7 @@ def _run_line_count(input_data: dict, context: ToolContext) -> ToolResult:
     
     lines = content.split("\n")
     total = len(lines)
-    non_empty = len([l for l in lines if l.strip()])
+    non_empty = len([ln for ln in lines if ln.strip()])
     empty = total - non_empty
     
     output = f"""Lines:

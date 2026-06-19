@@ -14,7 +14,6 @@ from typing import Any
 
 from mindbuddy.config import MINDBUDDY_DIR
 
-
 SUPERVISOR_STATE_PATH = MINDBUDDY_DIR / "cybernetic_supervisor.json"
 
 
@@ -73,7 +72,7 @@ class SupervisorReport:
         return "\n".join(lines)
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "SupervisorReport":
+    def from_dict(cls, data: dict[str, Any]) -> SupervisorReport:
         snapshots = [
             ControlSnapshot(
                 name=str(item.get("name", "")),

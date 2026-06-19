@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Protocol
-
+from typing import Any, Protocol
 
 # ---------------------------------------------------------------------------
 # Constants for smart truncation

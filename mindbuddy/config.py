@@ -3,9 +3,8 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
-from urllib.parse import urlparse
 from typing import Any
-
+from urllib.parse import urlparse
 
 MINDBUDDY_DIR = Path.home() / ".mindbuddy"
 MINDBUDDY_SETTINGS_PATH = MINDBUDDY_DIR / "settings.json"
@@ -721,7 +720,7 @@ def format_config_diagnostic(cwd: str | Path | None = None) -> str:
         lines.append(f"  Model: {model_name}")
 
         # Show provider info
-        from mindbuddy.model_registry import detect_provider, Provider
+        from mindbuddy.model_registry import Provider, detect_provider
         provider = detect_provider(model_name, config)
         lines.append(f"  Provider: {provider.value}")
 

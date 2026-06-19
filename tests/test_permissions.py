@@ -3,7 +3,11 @@ from pathlib import Path
 import pytest
 
 import mindbuddy.permissions as permissions_module
-from mindbuddy.permissions import PermissionManager, _classify_dangerous_command, _is_within_directory
+from mindbuddy.permissions import (
+    PermissionManager,
+    _classify_dangerous_command,
+    _is_within_directory,
+)
 
 
 @pytest.fixture(autouse=True)

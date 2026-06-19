@@ -4,7 +4,7 @@ import json
 import urllib.error
 import urllib.request
 
-from mindbuddy.tooling import ToolDefinition, ToolContext, ToolResult
+from mindbuddy.tooling import ToolContext, ToolDefinition, ToolResult
 
 
 def _validate_http_request(input_data: dict) -> dict:

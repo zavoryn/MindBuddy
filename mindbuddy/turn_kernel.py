@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from math import ceil
-from typing import Any, Callable, Literal
+from typing import Any, Literal
 
 from mindbuddy.layered_context import ContextBuilder, LayeredContext
 from mindbuddy.task_object import TaskState

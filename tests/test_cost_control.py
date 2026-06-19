@@ -9,20 +9,20 @@ Covers all 5 components of the cost control closed-loop:
 """
 
 import time
+
 import pytest
 
+from mindbuddy.context_compactor import (
+    AutoCompactConfig,
+    ContextCompactor,
+)
 from mindbuddy.cost_control import (
     BudgetActuator,
     BudgetAdjustment,
     BudgetPIDController,
     CostControlLoop,
-    CostRateReading,
     CostRateSensor,
     SpendingTrend,
-)
-from mindbuddy.context_compactor import (
-    AutoCompactConfig,
-    ContextCompactor,
 )
 
 
@@ -282,8 +282,6 @@ class TestBudgetManagerIntegration:
         cfg = AutoCompactConfig(threshold_ratio=0.85, circuit_breaker_limit=3, session_memory_enabled=False)
         compactor = ContextCompactor(context_window=10000, workspace="/tmp", estimate_fn=estimate_tokens, config=cfg)
 
-        original_threshold = compactor._tool_budget._persist_threshold
-        original_budget = compactor._tool_budget._budget
 
         loop.run(cost_usd=5.0, total_tokens=100000, total_calls=20)
         params = loop.apply_to_budget_manager(compactor._tool_budget)

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 
-from mindbuddy.tooling import ToolDefinition, ToolContext, ToolResult
+from mindbuddy.tooling import ToolContext, ToolDefinition, ToolResult
 
 
 def _validate_regex_test(input_data: dict) -> dict:

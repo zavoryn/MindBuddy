@@ -16,7 +16,6 @@ from mindbuddy.agent_loop import run_agent_turn
 from mindbuddy.context_manager import ContextManager
 from mindbuddy.mock_model import MockModelAdapter
 from mindbuddy.permissions import PermissionManager
-from mindbuddy.tooling import ToolRegistry
 from mindbuddy.tools import create_default_tool_registry
 
 
@@ -72,7 +71,7 @@ class TestAgentFlowBasic:
         self, mock_model, tools, messages, workspace, permissions
     ):
         ctx = ContextManager(model="claude-sonnet-4-20250514")
-        result = run_agent_turn(
+        run_agent_turn(
             model=mock_model,
             tools=tools,
             messages=messages,

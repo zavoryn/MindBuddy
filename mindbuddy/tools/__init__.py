@@ -5,8 +5,16 @@ from mindbuddy.mcp import create_mcp_backed_tools
 from mindbuddy.skills import discover_skills
 from mindbuddy.tooling import ToolRegistry
 from mindbuddy.tools.ask_user import ask_user_tool
-from mindbuddy.tools.batch_ops import batch_copy_tool, batch_move_tool, batch_delete_tool
-from mindbuddy.tools.code_nav import find_symbols_tool, find_references_tool, get_ast_info_tool
+from mindbuddy.tools.batch_ops import (
+    batch_copy_tool,
+    batch_delete_tool,
+    batch_move_tool,
+)
+from mindbuddy.tools.code_nav import (
+    find_references_tool,
+    find_symbols_tool,
+    get_ast_info_tool,
+)
 from mindbuddy.tools.code_review import code_review_tool
 from mindbuddy.tools.diff_viewer import diff_viewer_tool
 from mindbuddy.tools.edit_file import edit_file_tool
@@ -24,7 +32,6 @@ from mindbuddy.tools.todo_write import todo_write_tool
 from mindbuddy.tools.web_fetch import web_fetch_tool
 from mindbuddy.tools.web_search import web_search_tool
 from mindbuddy.tools.write_file import write_file_tool
-
 
 _CORE_TOOLS = [
     # User interaction
@@ -80,18 +87,36 @@ def _load_utility_wrapper_tools():
     # Lazy import keeps normal coding sessions from paying startup/import cost
     # for rarely used wrappers and keeps the default model tool surface small.
     from mindbuddy.tools.archive_utils import (
-        gzip_compress_tool, gzip_decompress_tool, tar_create_tool, tar_extract_tool,
-        zip_create_tool, zip_extract_tool,
+        gzip_compress_tool,
+        gzip_decompress_tool,
+        tar_create_tool,
+        tar_extract_tool,
+        zip_create_tool,
+        zip_extract_tool,
     )
-    from mindbuddy.tools.crypto_utils import current_time_tool, timestamp_tool, hash_tool, hmac_tool
-    from mindbuddy.tools.csv_utils import csv_parse_tool, csv_create_tool
-    from mindbuddy.tools.encoding_utils import base64_encode_tool, base64_decode_tool, url_encode_tool, url_decode_tool
+    from mindbuddy.tools.crypto_utils import (
+        current_time_tool,
+        hash_tool,
+        hmac_tool,
+        timestamp_tool,
+    )
+    from mindbuddy.tools.csv_utils import csv_create_tool, csv_parse_tool
+    from mindbuddy.tools.encoding_utils import (
+        base64_decode_tool,
+        base64_encode_tool,
+        url_decode_tool,
+        url_encode_tool,
+    )
     from mindbuddy.tools.http_utils import http_request_tool
     from mindbuddy.tools.json_utils import json_format_tool, json_parse_tool
-    from mindbuddy.tools.regex_utils import regex_test_tool, regex_replace_tool
+    from mindbuddy.tools.regex_utils import regex_replace_tool, regex_test_tool
     from mindbuddy.tools.text_utils import (
-        uuid_generate_tool, text_sort_tool, text_dedupe_tool, text_join_tool,
-        line_count_tool, random_string_tool,
+        line_count_tool,
+        random_string_tool,
+        text_dedupe_tool,
+        text_join_tool,
+        text_sort_tool,
+        uuid_generate_tool,
     )
 
     return [

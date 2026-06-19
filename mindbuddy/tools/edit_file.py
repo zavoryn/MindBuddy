@@ -15,7 +15,6 @@ from mindbuddy.file_review import apply_reviewed_file_change, load_existing_file
 from mindbuddy.tooling import ToolDefinition, ToolResult
 from mindbuddy.workspace import resolve_tool_path
 
-
 # ---------------------------------------------------------------------------
 # String matching helpers
 # ---------------------------------------------------------------------------
@@ -116,8 +115,8 @@ def _format_mismatch_diagnostic(content: str, search: str) -> str:
         if best_ratio < 1.0:
             lines.append("")
             lines.append("Hints:")
-            search_norm = [_normalize_line(l) for l in search_lines]
-            content_norm = [_normalize_line(l) for l in content_lines[best_start:best_start + window_size]]
+            search_norm = [_normalize_line(ln) for ln in search_lines]
+            content_norm = [_normalize_line(ln) for ln in content_lines[best_start:best_start + window_size]]
             for j in range(min(len(search_norm), len(content_norm))):
                 if search_norm[j] != content_norm[j]:
                     lines.append(f"  Line {best_start + 1 + j}: expected {search_norm[j]!r}, found {content_norm[j]!r}")
@@ -193,7 +192,7 @@ def _run(input_data: dict, context) -> ToolResult:
             output=(
                 f"Found {len(matches)} matches for the search string. "
                 f"Use replace_all=true to replace all occurrences, or provide more context to make the match unique.\n"
-                f"Matches at lines: {', '.join(str(l) for l in match_lines)}"
+                f"Matches at lines: {', '.join(str(ln) for ln in match_lines)}"
             ),
         )
     

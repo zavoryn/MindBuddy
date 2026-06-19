@@ -1,10 +1,13 @@
 """Feedforward Controller based on Engineering Cybernetics."""
 from __future__ import annotations
+
 import time
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any
-from mindbuddy.intent_parser import ParsedIntent, IntentType, ActionType
+
+from mindbuddy.intent_parser import ActionType, IntentType, ParsedIntent
+
 
 class PreemptionLevel(Enum):
     NONE = "none"
@@ -29,7 +32,7 @@ class PreemptiveConfig:
     enable_early_termination: bool = False
     confidence: float = 0.7
     reasoning: str = ""
-    def merge_with_defaults(self, defaults: "PreemptiveConfig") -> "PreemptiveConfig":
+    def merge_with_defaults(self, defaults: PreemptiveConfig) -> PreemptiveConfig:
         result = PreemptiveConfig()
         for key in ["token_budget", "context_window_reserve", "max_concurrent_tools", "serial_tools_first", "recommended_model", "force_model_upgrade", "tool_timeout_seconds", "max_turn_steps", "preload_memory_count", "enable_backup_before_write", "require_permission_for_all_writes", "enable_early_termination", "confidence", "reasoning"]:
             setattr(result, key, getattr(self, key) if getattr(self, key) is not None else getattr(defaults, key))

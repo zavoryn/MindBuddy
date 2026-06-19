@@ -3,10 +3,15 @@ from __future__ import annotations
 import sys
 import threading
 import time
-from typing import Callable
+from collections.abc import Callable
 
 from mindbuddy.tui.chrome import invalidate_terminal_size_cache
-from mindbuddy.tui.screen import enter_alternate_screen, exit_alternate_screen, hide_cursor, show_cursor
+from mindbuddy.tui.screen import (
+    enter_alternate_screen,
+    exit_alternate_screen,
+    hide_cursor,
+    show_cursor,
+)
 
 
 class _ThrottledRenderer:

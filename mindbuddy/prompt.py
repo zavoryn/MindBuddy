@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from mindbuddy.prompt_pipeline import PromptPipeline, read_file_cached
 from mindbuddy.product_surfaces import (
     DelegationStatus,
     HookStatus,
@@ -10,6 +9,7 @@ from mindbuddy.product_surfaces import (
     ReadinessReport,
     build_product_snapshot,
 )
+from mindbuddy.prompt_pipeline import PromptPipeline, read_file_cached
 
 
 def _maybe_read(path: Path) -> str | None:

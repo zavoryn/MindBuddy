@@ -5,7 +5,8 @@ import os
 import time
 import urllib.error
 import urllib.request
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 from mindbuddy.api_retry import (
     RETRYABLE_STATUS,
@@ -164,7 +165,7 @@ class AnthropicModelAdapter:
             self._tools_cache_key = current_key
         return self._cached_tools_json
 
-    def next(self, messages: list[dict[str, Any]], on_stream_chunk: Callable[[str], None] | None = None, on_thinking_delta: Callable[[str], None] | None = None, store: Store[AppState] | None = None) -> AgentStep:
+    def next(self, messages: list[dict[str, Any]], on_stream_chunk: Callable[[str], None] | None = None, on_thinking_delta: Callable[[str], None] | None = None, store: Store[AppState] | None = None) -> AgentStep:  # noqa: F821
         system_message, converted_messages = _to_anthropic_messages(messages)
 
         # Replay stored thinking blocks into the first assistant message

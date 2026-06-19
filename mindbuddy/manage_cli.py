@@ -1,6 +1,10 @@
 from __future__ import annotations
 
-from mindbuddy.config import get_mcp_config_path, load_scoped_mcp_servers, save_scoped_mcp_servers
+from mindbuddy.config import (
+    get_mcp_config_path,
+    load_scoped_mcp_servers,
+    save_scoped_mcp_servers,
+)
 from mindbuddy.skills import discover_skills, install_skill, remove_managed_skill
 
 

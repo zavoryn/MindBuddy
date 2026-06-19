@@ -5,7 +5,6 @@ import time
 
 from mindbuddy.config import MINDBUDDY_DIR, MINDBUDDY_HISTORY_PATH
 
-
 # Simple TTL cache: stores (timestamp, value)
 _history_cache: tuple[float, list[str]] | None = None
 _history_cache_ttl: float = 5.0  # seconds

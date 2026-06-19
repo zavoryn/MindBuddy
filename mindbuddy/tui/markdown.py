@@ -16,7 +16,7 @@ Inspired by Claude Code's markdown rendering quality.
 from __future__ import annotations
 
 import re
-from typing import Match
+from re import Match
 
 # ---------------------------------------------------------------------------
 # ANSI escape codes

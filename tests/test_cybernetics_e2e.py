@@ -10,14 +10,13 @@ from __future__ import annotations
 import time
 
 from mindbuddy.adaptive_pid_tuner import AdaptivePIDTuner
+from mindbuddy.context_compactor import AutoCompactConfig, ContextCompactor
 from mindbuddy.context_cybernetics import ContextCyberneticsOrchestrator
-from mindbuddy.context_compactor import ContextCompactor, AutoCompactConfig
 from mindbuddy.cost_control import CostControlLoop
 from mindbuddy.cybernetic_supervisor import CyberneticSupervisor
 from mindbuddy.feedback_controller import (
     ControlSignal,
     FeedbackController,
-    SystemState,
 )
 from mindbuddy.self_healing_engine import SelfHealingEngine
 from mindbuddy.state_observer import MeasurementVector, StateObserver
@@ -50,7 +49,7 @@ class TestStateToHealingChain:
 
     def test_degradation_triggers_healing_detection(self):
         observer = StateObserver()
-        healing = SelfHealingEngine()
+        SelfHealingEngine()
 
         # Simulate degrading system
         for i in range(20):

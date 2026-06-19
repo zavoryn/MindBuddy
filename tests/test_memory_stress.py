@@ -5,9 +5,14 @@ import tempfile
 import threading
 import time
 
-from mindbuddy.memory import MemoryEntry, MemoryFile, MemoryManager, MemoryScope, MemoryTier
-
 import pytest
+
+from mindbuddy.memory import (
+    MemoryEntry,
+    MemoryFile,
+    MemoryManager,
+    MemoryScope,
+)
 
 
 class TestMemoryStressLargeVolume:

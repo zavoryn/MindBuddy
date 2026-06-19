@@ -1,23 +1,42 @@
 from __future__ import annotations
-from collections import defaultdict
+
 import logging
 import os
 import sys
 import threading
-import time
-from typing import Any, Callable
-from mindbuddy.tui.state import ScreenState, TtyAppArgs
-from mindbuddy.cli_commands import try_handle_local_command, find_matching_slash_commands
+from collections import defaultdict
+from collections.abc import Callable
+from typing import Any
+
 from mindbuddy.agent_loop import run_agent_turn
+from mindbuddy.cli_commands import (
+    find_matching_slash_commands,
+    try_handle_local_command,
+)
 from mindbuddy.context_manager import save_context_state
 from mindbuddy.history import save_history_entries
 from mindbuddy.local_tool_shortcuts import parse_local_tool_shortcut
 from mindbuddy.prompt import build_system_prompt_bundle
 from mindbuddy.tooling import ToolContext
-from mindbuddy.types import RuntimeEvent
 from mindbuddy.tui.session_flow import refresh_tty_session_snapshot
-from mindbuddy.tui.tool_helpers import _summarize_tool_input, _is_file_edit_tool, _extract_path_from_tool_input, _summarize_collapsed_tool_body
-from mindbuddy.tui.tool_lifecycle import _push_transcript_entry, _update_tool_entry, _update_transcript_entry, _append_to_transcript_entry, _collapse_tool_entry, _finalize_dangling_running_tools, _get_running_tool_entries, _schedule_tool_auto_collapse
+from mindbuddy.tui.state import ScreenState, TtyAppArgs
+from mindbuddy.tui.tool_helpers import (
+    _extract_path_from_tool_input,
+    _is_file_edit_tool,
+    _summarize_collapsed_tool_body,
+    _summarize_tool_input,
+)
+from mindbuddy.tui.tool_lifecycle import (
+    _append_to_transcript_entry,
+    _collapse_tool_entry,
+    _finalize_dangling_running_tools,
+    _get_running_tool_entries,
+    _push_transcript_entry,
+    _schedule_tool_auto_collapse,
+    _update_tool_entry,
+    _update_transcript_entry,
+)
+from mindbuddy.types import RuntimeEvent
 
 logger = logging.getLogger("mindbuddy.input_handler")
 
@@ -161,8 +180,8 @@ class _RawModeContext:
             except Exception:
                 pass
         else:
-            import termios
             import signal
+            import termios
 
             fd = sys.stdin.fileno()
             self._old_settings = termios.tcgetattr(fd)
@@ -212,8 +231,8 @@ class _RawModeContext:
                 except Exception:
                     pass
         elif self._old_settings is not None:
-            import termios
             import signal
+            import termios
 
             termios.tcsetattr(sys.stdin.fileno(), termios.TCSADRAIN, self._old_settings)
             if getattr(self, '_old_sigwinch', None) is not None:
@@ -288,7 +307,7 @@ def _handle_input(
     """Returns True if /exit was typed."""
     if state.is_busy:
         # Animated spinner during tool execution
-        import itertools, time
+        import time
         spinners = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
         tick = int(time.monotonic() * 8) % len(spinners)
         spin = spinners[tick]
@@ -399,8 +418,8 @@ def _handle_input(
     rerender()
 
     pending_tool_entries: dict[str, list[int]] = defaultdict(list)
-    aggregated_edit_by_key: dict[str, AggregatedEditProgress] = {}
-    aggregated_edit_by_entry_id: dict[int, AggregatedEditProgress] = {}
+    aggregated_edit_by_key: dict[str, AggregatedEditProgress] = {}  # noqa: F821
+    aggregated_edit_by_entry_id: dict[int, AggregatedEditProgress] = {}  # noqa: F821
 
     # Refresh system prompt
     bundle = build_system_prompt_bundle(
@@ -545,7 +564,7 @@ def _handle_input(
                     status="running",
                     body=_summarize_tool_input(tool_name, tool_input),
                 )
-                progress = AggregatedEditProgress(
+                progress = AggregatedEditProgress(  # noqa: F821
                     entry_id=entry_id,
                     tool_name=tool_name,
                     path=target_path,

@@ -18,7 +18,6 @@ from mindbuddy.tui.input_parser import KeyEvent
 from mindbuddy.tui.state import ScreenState, TtyAppArgs
 from mindbuddy.types import AgentStep
 
-
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
@@ -59,8 +58,7 @@ def test_release_cli_valid_config_runs_as_black_box(tmp_path: Path) -> None:
         text=True,
         encoding="utf-8",
         errors="replace",
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         timeout=20,
         check=False,
     )
@@ -85,8 +83,7 @@ def test_release_non_tty_main_handles_memory_and_local_commands(tmp_path: Path) 
         text=True,
         encoding="utf-8",
         errors="replace",
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         timeout=30,
         check=False,
     )

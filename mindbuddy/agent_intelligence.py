@@ -1,5 +1,5 @@
-from enum import Enum
 from dataclasses import dataclass
+from enum import Enum
 from typing import Any
 
 
@@ -327,7 +327,7 @@ class ToolScheduler:
 
     def __init__(
         self,
-        metrics_collector: "AgentMetricsCollector | None" = None,
+        metrics_collector: "AgentMetricsCollector | None" = None,  # noqa: F821
         controller: ToolSchedulerController | None = None,
     ):
         self._metrics = metrics_collector
@@ -358,7 +358,7 @@ class ToolScheduler:
         concurrent_calls: list[dict] = []
         serial_calls: list[dict] = []
 
-        for score, call in scored_calls:
+        for _score, call in scored_calls:
             tool_name = call["toolName"]
             tool_def = tools.find(tool_name)
 

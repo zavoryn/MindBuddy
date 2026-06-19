@@ -50,9 +50,9 @@ from enum import Enum, auto
 from typing import Any
 
 from .context_compactor import (
+    CompactionResult,
     CompactStrategy,
     CompactTrigger,
-    CompactionResult,
     ContextCompactor,
 )
 
@@ -822,7 +822,7 @@ class ContextCyberneticsOrchestrator:
                 avg_latency=avg_latency,
             )
 
-    def to_system_state(self) -> "SystemState":
+    def to_system_state(self) -> SystemState:  # noqa: F821
         """Bridge: convert internal state to FeedbackController.SystemState.
 
         Forms the upper layer of a dual-PID control architecture:

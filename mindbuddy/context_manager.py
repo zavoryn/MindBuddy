@@ -14,7 +14,6 @@ from typing import Any
 
 from mindbuddy.config import MINDBUDDY_DIR
 
-
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
@@ -733,7 +732,7 @@ class ContextManager:
         if tool_name in _SEARCH_TOOLS:
             pattern = inp.get("pattern") or inp.get("query", "")
             # Count matches from result
-            match_lines = [l for l in result_content.split("\n") if l.strip() and not l.startswith("#")]
+            match_lines = [ln for ln in result_content.split("\n") if ln.strip() and not ln.startswith("#")]
             return f"[Searched '{pattern[:50]}': {len(match_lines)} results]"
         
         if tool_name in _COMMAND_TOOLS:

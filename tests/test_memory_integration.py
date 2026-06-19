@@ -15,33 +15,31 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from test_helpers import (
+    create_corrupted_memory_file,
+    verify_memory_integrity,
+)
+
+from mindbuddy.agent_loop import run_agent_turn
+from mindbuddy.context_manager import ContextManager, estimate_tokens
 from mindbuddy.memory import (
+    _CODE_TERM_EXPANSIONS,
     MemoryEntry,
-    MemoryFile,
     MemoryManager,
     MemoryScope,
-    inject_memory_into_prompt,
     _auto_classify_content,
     _tokenize,
-    _CODE_TERM_EXPANSIONS,
+    inject_memory_into_prompt,
 )
-from mindbuddy.context_manager import ContextManager, estimate_tokens
-from mindbuddy.session import (
-    save_session,
-    load_session,
-    create_new_session,
-)
-from mindbuddy.agent_loop import run_agent_turn
 from mindbuddy.mock_model import MockModelAdapter
 from mindbuddy.permissions import PermissionManager
-from mindbuddy.tools import create_default_tool_registry
 from mindbuddy.prompt import build_system_prompt
-
-from test_helpers import (
-    verify_memory_integrity,
-    create_corrupted_memory_file,
+from mindbuddy.session import (
+    create_new_session,
+    load_session,
+    save_session,
 )
-
+from mindbuddy.tools import create_default_tool_registry
 
 # ---------------------------------------------------------------------------
 # Shared fixtures
@@ -390,7 +388,7 @@ class TestMemoryAgentLoopIntegration:
             {"role": "system", "content": inject_memory_into_prompt(base_prompt, mm)},
             {"role": "user", "content": "/write test_runner.py::# Test runner"},
         ]
-        result_t2 = run_agent_turn(
+        run_agent_turn(
             model=mock_model,
             tools=tools,
             messages=msgs_t2,
@@ -491,7 +489,7 @@ class TestMemoryPermissionIntegration:
             MemoryScope.LOCAL, "other", "WS2 local data"
         )
 
-        results_in_ws2 = mm2.search("WS1 local secret")
+        mm2.search("WS1 local secret")
         local_in_ws2 = mm2.memories[MemoryScope.LOCAL].entries
         assert not any("WS1 local secret" in e.content for e in local_in_ws2)
 
@@ -533,7 +531,7 @@ class TestMemoryPermissionIntegration:
         mm.search("permission")
         mm.get_relevant_context()
 
-        permissions = PermissionManager(
+        PermissionManager(
             str(tmp_workspace),
             prompt=lambda req: {"decision": "deny_once"},
         )
@@ -568,7 +566,6 @@ class TestMemoryPermissionIntegration:
         ws1.mkdir()
         ws2.mkdir()
 
-        from mindbuddy.config import MINDBUDDY_DIR
 
         mm1 = MemoryManager(project_root=ws1)
         mm1.add_entry(
@@ -799,7 +796,7 @@ class TestMemoryRecoveryIntegration:
         }
         memory_json.write_text(json.dumps(corrupted_data), encoding="utf-8")
 
-        mm = MemoryManager(project_root=tmp_workspace)
+        MemoryManager(project_root=tmp_workspace)
 
         backup_path = memory_json.with_suffix(".json.bak")
         assert backup_path.exists()
@@ -999,7 +996,7 @@ class TestMemoryRecoveryIntegration:
         assert corrupted["scope"] == "project"
         assert len(corrupted["entries"]) == 4
 
-        mm = MemoryManager(project_root=tmp_workspace)
+        MemoryManager(project_root=tmp_workspace)
 
         backup = memory_json.with_suffix(".json.bak")
         assert backup.exists()

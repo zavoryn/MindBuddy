@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import shutil
 
-from mindbuddy.tooling import ToolDefinition, ToolContext, ToolResult
+from mindbuddy.tooling import ToolContext, ToolDefinition, ToolResult
 from mindbuddy.workspace import resolve_tool_path
 
 

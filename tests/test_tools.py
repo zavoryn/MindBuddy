@@ -1,27 +1,34 @@
-from pathlib import Path
 import io
 import sys
 import tarfile
 import zipfile
+from pathlib import Path
 
 import pytest
 
-import mindbuddy.tools.test_runner as test_runner_module
 import mindbuddy.tools.run_command as run_command_module
+import mindbuddy.tools.test_runner as test_runner_module
 from mindbuddy.permissions import PermissionManager
 from mindbuddy.session import create_new_session, load_session
-from mindbuddy.tools.batch_ops import batch_copy_tool, batch_move_tool
-from mindbuddy.tools.code_nav import find_references_tool, find_symbols_tool, get_ast_info_tool
-from mindbuddy.tools.code_review import code_review_tool
-from mindbuddy.tools.file_tree import file_tree_tool
-from mindbuddy.tools.run_command import _build_execution_command, split_command_line
-from mindbuddy.tools.patch_file import patch_file_tool
-from mindbuddy.tools.archive_utils import tar_extract_tool, zip_extract_tool
-from mindbuddy.tools.run_command import run_command_tool
-from mindbuddy.tools.test_runner import test_runner_tool
-from mindbuddy.tools.write_file import write_file_tool
 from mindbuddy.tooling import ToolContext
 from mindbuddy.tools import create_default_tool_registry
+from mindbuddy.tools.archive_utils import tar_extract_tool, zip_extract_tool
+from mindbuddy.tools.batch_ops import batch_copy_tool, batch_move_tool
+from mindbuddy.tools.code_nav import (
+    find_references_tool,
+    find_symbols_tool,
+    get_ast_info_tool,
+)
+from mindbuddy.tools.code_review import code_review_tool
+from mindbuddy.tools.file_tree import file_tree_tool
+from mindbuddy.tools.patch_file import patch_file_tool
+from mindbuddy.tools.run_command import (
+    _build_execution_command,
+    run_command_tool,
+    split_command_line,
+)
+from mindbuddy.tools.test_runner import test_runner_tool
+from mindbuddy.tools.write_file import write_file_tool
 
 
 def test_split_command_line_supports_quotes() -> None:

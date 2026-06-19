@@ -422,7 +422,7 @@ class StdioMcpClient:
                 exit_code = self.process.poll()
                 error_msg = {"error": {"code": -1, "message": f"MCP server process exited (code={exit_code})"}}
                 with self._lock:
-                    for req_id, q in list(self._pending.items()):
+                    for _req_id, q in list(self._pending.items()):
                         q.put(error_msg)
                     self._pending.clear()
 
@@ -447,7 +447,7 @@ class StdioMcpClient:
             self._ensure_stdout_thread()
             return
         
-        header = f"Content-Length: {len(payload_bytes)}\r\n\r\n".encode("utf-8")
+        header = f"Content-Length: {len(payload_bytes)}\r\n\r\n".encode()
         self.process.stdin.write(header + payload_bytes)
         self.process.stdin.flush()
         self._ensure_stdout_thread()

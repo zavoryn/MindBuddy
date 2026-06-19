@@ -1,7 +1,9 @@
 """Memory system performance benchmarks."""
 import time
+
 import pytest
-from mindbuddy.memory import MemoryManager, MemoryScope
+
+from mindbuddy.memory import MemoryScope
 
 
 @pytest.mark.benchmark

@@ -16,12 +16,11 @@ import json
 import time
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 from mindbuddy.config import MINDBUDDY_DIR
-
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -945,7 +944,7 @@ class AutosaveManager:
 
 def _fmt_ts(ts: float, fmt: str) -> str:
     """Fast timestamp formatting using datetime (avoids repeated localtime)."""
-    return datetime.fromtimestamp(ts, tz=timezone.utc).strftime(fmt)
+    return datetime.fromtimestamp(ts, tz=UTC).strftime(fmt)
 
 
 def format_session_list(sessions: list[SessionMetadata]) -> str:

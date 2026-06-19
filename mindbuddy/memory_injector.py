@@ -6,8 +6,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any
 
-from mindbuddy.memory import MemoryManager, MemoryScope, MemoryEntry
 from mindbuddy.logging_config import get_logger
+from mindbuddy.memory import MemoryEntry, MemoryManager, MemoryScope
 
 logger = get_logger("memory_injector")
 

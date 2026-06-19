@@ -47,7 +47,11 @@ from mindbuddy.memory_injector import (
 )
 from mindbuddy.model_registry import ModelSelectionController, ModelSelectionSignal
 from mindbuddy.predictive_controller import PredictiveController
-from mindbuddy.progress_controller import ProgressAction, ProgressController, ProgressSignal
+from mindbuddy.progress_controller import (
+    ProgressAction,
+    ProgressController,
+    ProgressSignal,
+)
 from mindbuddy.self_healing_engine import SelfHealingEngine
 from mindbuddy.stability_monitor import MetricSnapshot, StabilityMonitor
 from mindbuddy.state_observer import MeasurementVector, StateObserver

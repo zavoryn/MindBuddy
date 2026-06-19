@@ -13,7 +13,6 @@ from typing import Any
 from mindbuddy.tooling import ToolDefinition, ToolResult
 from mindbuddy.workspace import resolve_tool_path
 
-
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
@@ -191,7 +190,7 @@ def _validate(input_data: dict) -> dict:
     try:
         re.compile(pattern)
     except re.error as e:
-        raise ValueError(f"Invalid regex pattern: {e}")
+        raise ValueError(f"Invalid regex pattern: {e}") from e
     
     # Parse include/exclude globs
     include = input_data.get("include")

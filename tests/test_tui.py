@@ -1,4 +1,9 @@
-from mindbuddy.tui import render_banner, render_panel, render_permission_prompt, render_transcript
+from mindbuddy.tui import (
+    render_banner,
+    render_panel,
+    render_permission_prompt,
+    render_transcript,
+)
 from mindbuddy.tui.types import TranscriptEntry
 
 

@@ -1,12 +1,9 @@
 """Unit tests for FeedbackController — dual-PID outer loop, ControlSignal, oscillation detection."""
 from __future__ import annotations
 
-import time
-
 from mindbuddy.feedback_controller import (
     ControlSignal,
     FeedbackController,
-    FeedbackMode,
     PIDController,
     SystemState,
 )

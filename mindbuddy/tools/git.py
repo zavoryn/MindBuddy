@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import subprocess
+
 from mindbuddy.tooling import ToolDefinition, ToolResult
 
 

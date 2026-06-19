@@ -14,9 +14,10 @@ This module implements:
 from __future__ import annotations
 
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable
+from typing import Any
 
 
 class FaultSeverity(Enum):
@@ -130,7 +131,7 @@ class SelfHealingEngine:
 
     def __init__(
         self,
-        orchestrator: "ContextCyberneticsOrchestrator | None" = None,
+        orchestrator: ContextCyberneticsOrchestrator | None = None,  # noqa: F821
         tool_scheduler=None,
         compactor=None,
     ):

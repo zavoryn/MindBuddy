@@ -3,8 +3,8 @@ from __future__ import annotations
 import difflib
 from pathlib import Path
 from typing import Any
-from mindbuddy.tooling import ToolDefinition, ToolResult
 
+from mindbuddy.tooling import ToolDefinition, ToolResult
 
 # ---------------------------------------------------------------------------
 # Diff Viewer Helpers

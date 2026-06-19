@@ -1,10 +1,14 @@
 from __future__ import annotations
+
 import sys
 import time
 from typing import Any
+
 from mindbuddy.background_tasks import list_background_tasks
 from mindbuddy.session import format_checkpoint_summary_line
 from mindbuddy.tui.chrome import (
+    RESET,
+    SUBTLE,
     _cached_terminal_size,
     render_banner,
     render_footer_bar,
@@ -13,14 +17,12 @@ from mindbuddy.tui.chrome import (
     render_slash_menu,
     render_status_line,
     render_tool_panel,
-    SUBTLE,
-    RESET,
 )
 from mindbuddy.tui.input import render_input_prompt
-from mindbuddy.tui.transcript import format_runtime_summary_line, render_transcript
-from mindbuddy.tui.state import TtyAppArgs, ScreenState
 from mindbuddy.tui.navigation import _get_transcript_body_lines, _get_visible_commands
+from mindbuddy.tui.state import ScreenState, TtyAppArgs
 from mindbuddy.tui.tool_helpers import _get_session_stats
+from mindbuddy.tui.transcript import format_runtime_summary_line, render_transcript
 from mindbuddy.tui.types import TranscriptEntry
 from mindbuddy.tui.ui_hints import _get_contextual_help
 

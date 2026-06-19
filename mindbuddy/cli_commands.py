@@ -810,8 +810,11 @@ def try_handle_local_command(
 
 def format_cybernetics_status() -> str:
     """Format cybernetic controller inventory and persisted state hints."""
-    from mindbuddy.cybernetic_supervisor import CyberneticSupervisor, load_supervisor_report
     from mindbuddy.context_manager import load_context_state
+    from mindbuddy.cybernetic_supervisor import (
+        CyberneticSupervisor,
+        load_supervisor_report,
+    )
 
     controllers = [
         ("ContextCyberneticsOrchestrator", "context pressure PID + prediction"),
