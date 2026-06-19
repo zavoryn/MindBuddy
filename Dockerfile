@@ -17,14 +17,14 @@ FROM python:3.12-slim AS builder
 
 WORKDIR /build
 
-# Copy package source
+# Phase 1: Create venv and upgrade pip (cached — rarely changes)
+RUN python -m venv /opt/mindbuddy-venv && \
+    /opt/mindbuddy-venv/bin/pip install --no-cache-dir --upgrade pip
+
+# Phase 2: Install package (only re-runs when pyproject.toml or source changes)
 COPY pyproject.toml README.md ./
 COPY mindbuddy/ ./mindbuddy/
-
-# Install into a clean venv (keeps final image small)
-RUN python -m venv /opt/mindbuddy-venv && \
-    /opt/mindbuddy-venv/bin/pip install --no-cache-dir --upgrade pip && \
-    /opt/mindbuddy-venv/bin/pip install --no-cache-dir .
+RUN /opt/mindbuddy-venv/bin/pip install --no-cache-dir .
 
 # ---------------------------------------------------------------------------
 # Stage 2: Runtime — minimal image with only the venv
@@ -34,6 +34,9 @@ FROM python:3.12-slim AS runtime
 LABEL org.opencontainers.image.title="MindBuddy"
 LABEL org.opencontainers.image.description="A lightweight terminal coding assistant — the agent that grows with you"
 LABEL org.opencontainers.image.source="https://github.com/zavoryn/MindBuddy"
+LABEL org.opencontainers.image.authors="Ming Chen <zavoryn@gmail.com>"
+LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.version="0.1.0"
 
 # Create non-root user for security
 RUN groupadd --gid 1000 mindbuddy && \
