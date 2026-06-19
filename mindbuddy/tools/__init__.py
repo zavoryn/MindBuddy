@@ -1,5 +1,5 @@
-from dataclasses import asdict
 import os
+from dataclasses import asdict
 
 from mindbuddy.mcp import create_mcp_backed_tools
 from mindbuddy.skills import discover_skills
@@ -18,12 +18,12 @@ from mindbuddy.tools.load_skill import create_load_skill_tool
 from mindbuddy.tools.patch_file import patch_file_tool
 from mindbuddy.tools.read_file import read_file_tool
 from mindbuddy.tools.run_command import run_command_tool
+from mindbuddy.tools.task import task_tool
 from mindbuddy.tools.test_runner import test_runner_tool
 from mindbuddy.tools.todo_write import todo_write_tool
 from mindbuddy.tools.web_fetch import web_fetch_tool
 from mindbuddy.tools.web_search import web_search_tool
 from mindbuddy.tools.write_file import write_file_tool
-from mindbuddy.tools.task import task_tool
 
 
 _CORE_TOOLS = [
