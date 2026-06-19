@@ -158,7 +158,7 @@ class _ExtractedInfo:
 
 
 # Tool categories for classification
-_EDIT_TOOLS = frozenset({"edit_file", "write_file", "modify_file", "patch_file", "multi_edit"})
+_EDIT_TOOLS = frozenset({"edit_file", "write_file", "patch_file", "multi_edit"})
 _READ_TOOLS = frozenset({"read_file", "list_files", "grep_files", "file_tree"})
 _SEARCH_TOOLS = frozenset({"grep_files", "find_symbols", "find_references", "web_search", "web_fetch"})
 _COMMAND_TOOLS = frozenset({"run_command", "execute_command", "bash"})

@@ -27,7 +27,7 @@ class MockModelAdapter:
                 return AgentStep(type="assistant", content=f"Directory contents:\n\n{tool_message['content']}")
             if last_call == "read_file":
                 return AgentStep(type="assistant", content=f"File contents:\n\n{tool_message['content']}")
-            if last_call in {"write_file", "edit_file", "modify_file", "patch_file"}:
+            if last_call in {"write_file", "edit_file", "patch_file"}:
                 return AgentStep(type="assistant", content=tool_message["content"])
             return AgentStep(type="assistant", content=f"I received the tool result:\n\n{tool_message['content']}")
 

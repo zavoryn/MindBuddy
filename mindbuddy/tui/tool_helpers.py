@@ -67,7 +67,7 @@ def _summarize_tool_input(tool_name: str, tool_input: Any) -> str:
 
 
 def _is_file_edit_tool(tool_name: str) -> bool:
-    return tool_name in ("edit_file", "patch_file", "modify_file", "write_file")
+    return tool_name in ("edit_file", "patch_file", "write_file")
 
 
 def _extract_path_from_tool_input(tool_input: Any) -> str | None:

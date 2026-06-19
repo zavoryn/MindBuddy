@@ -68,7 +68,6 @@ MEDIUM_RISK_TOOLS = frozenset({
     "write_file",
     "edit_file",
     "patch_file",
-    "modify_file",
 })
 
 # High-risk commands (block or require strong justification)

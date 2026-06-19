@@ -417,7 +417,7 @@ class ToolScheduler:
         base = min(len(concurrent_calls), 8)
 
         # Reduce workers if we have file write operations
-        write_tools = {"write_file", "edit_file", "patch_file", "modify_file"}
+        write_tools = {"write_file", "edit_file", "patch_file"}
         write_count = sum(1 for c in concurrent_calls if c["toolName"] in write_tools)
         if write_count > 0:
             base = min(base, 4)

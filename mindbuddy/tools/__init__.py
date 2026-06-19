@@ -34,7 +34,6 @@ _CORE_TOOLS = [
     grep_files_tool,
     read_file_tool,
     write_file_tool,
-    # modify_file_tool removed: identical to write_file (same _run/_validate)
     edit_file_tool,
     patch_file_tool,
     # Batch operations

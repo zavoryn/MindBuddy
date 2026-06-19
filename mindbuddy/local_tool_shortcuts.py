@@ -36,7 +36,7 @@ def parse_local_tool_shortcut(user_input: str) -> dict | None:
         if not separator:
             return None
         return {
-            "toolName": "modify_file",
+            "toolName": "write_file",
             "input": {"path": target_path.strip(), "content": content},
         }
 
